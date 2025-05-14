@@ -1,0 +1,328 @@
+<div class="card">
+    <div class="title"> List of Requests sent </div>
+    <br>
+    <div class="search-header">
+        Search Filters
+    </div>
+    <!--search form-->
+    <div class="search-container">
+        <form (ngSubmit)="searchDemandes()" #searchForm="ngForm" class="search-form">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="numparc">Parc Number</label>
+                        <input type="number" class="form-control" name="numparc" id="numparc"
+                            [(ngModel)]="searchParams.numparc">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="id_chauffeur">Driver</label>
+                        <select class="form-control" name="id_chauffeur" id="id_chauffeur"
+                            [(ngModel)]="searchParams.id_chauffeur">
+                            <option ngValue="">All Drivers</option>
+                            <option *ngFor="let chauffeur of chauffeurs" [ngValue]="chauffeur.id_chauf">
+                                {{chauffeur.matricule_chauf}} {{chauffeur.nom}} {{chauffeur.prenom}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date_demande">Request Date</label>
+                        <input type="date" class="form-control" name="date_demande" id="date_demande"
+                            [(ngModel)]="searchParams.date_demande">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="type_avarie">Breakdown type</label>
+                        <select class="form-control" name="type_avarie" id="type_avarie"
+                            [(ngModel)]="searchParams.type_avarie">
+                            <option ngValue="">All Types</option>
+                            <option *ngFor="let demande of demandes" [ngValue]="demande.type_avarie">
+                                {{demande.type_avarie}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date_avarie">Breakdown Date</label>
+                        <input type="date" class="form-control" name="date_avarie" id="date_avarie"
+                            [(ngModel)]="searchParams.date_avarie">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="heure_avarie">Breakdown Hour</label>
+                        <input type="time" class="form-control" name="heure_avarie" id="heure_avarie"
+                            [(ngModel)]="searchParams.heure_avarie">
+                    </div>
+                </div>
+
+            </div>
+            <div class="buton">
+                <button mat-raised-button type="button" (click)="resetSearch()">Reset</button>
+                <button mat-raised-button color="primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card-body">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort *ngIf="dataSource.data.length > 0">
+
+            <ng-container matColumnDef="id_demande">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Request ID </th>
+                <td mat-cell *matCellDef="let Demande"> {{Demande.id_demande}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date_demande">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Request Date</th>
+                <td mat-cell *matCellDef="let Demande"> {{Demande.date_demande}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="type_avarie">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Breakdown Type</th>
+                <td mat-cell *matCellDef="let Demande"> {{Demande.type_avarie}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let Demande"> {{Demande.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date_avarie">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Breakdown Date </th>
+                <td mat-cell *matCellDef="let Demande"> {{Demande.date_avarie}} {{Demande.heure_avarie}}</td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="statut">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> statut </th>
+                <td mat-cell *matCellDef="let Demande" [ngClass]="getStatutClass(Demande.statut)"> {{Demande.statut}}
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="vehicule">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicule </th>
+                <td mat-cell *matCellDef="let Demande">
+                    <div style="display: flex; flex-direction: column;">
+                        <span> {{Demande.numparc}}</span>
+                    </div>
+                    <!--<div style="display: flex; flex-direction: column;">
+                        <span><strong>Parc Number:</strong> {{Demande.numparc}}</span>
+                        <span><strong>Vehicle:</strong> {{Demande.immatricule}}</span>
+                        <span><strong>Model:</strong> {{Demande.modele}}</span>
+                    </div>-->
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="driver">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Driver </th>
+                <td mat-cell *matCellDef="let Demande">
+                    <div style="display: flex; flex-direction: column;"> {{Demande.matricule_chauf}} {{Demande.nom}}
+                        {{Demande.prenom}}
+                    </div>
+                    <!--<div style="display: flex; flex-direction: column;">
+                        <span><strong>Name:</strong> {{Demande.matricule_chauf}}: {{Demande.nom}}
+                            {{Demande.prenom}}</span>
+                        <span><strong>Information:</strong> {{Demande.email}} {{Demande.cin}}
+                            {{Demande.telephone}}</span>
+
+
+                    </div>-->
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                <td mat-cell *matCellDef="let demande">
+                    <!--<div class="boutton">
+                        <button mat-flat-button (click)="updateStatus(demande)" color="primary">edit</button>
+                        <button color="black" mat-flat-button (click)="diagnosticDemande(demande)">diagnostic</button>
+                    </div>-->
+
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="updateStatus(demande)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit Status</span>
+                        </button>
+                        <button mat-menu-item (click)="diagnosticDemande(demande)">
+                            <mat-icon>assignment_turned_in</mat-icon>
+                            <span>Create Diagnostic</span>
+                        </button>
+
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let demandes; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- bouton avec icon
+<button mat-icon-button (click)="updateStatus(demande)" color="primary" matTooltip="edit"
+                        aria-label="Button that displays a tooltip when focused or hovered over">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button color="green" mat-icon-button (click)="diagnosticDemande(demande)" matTooltip="Diagnostic"
+                        aria-label="Button that displays a tooltip when focused or hovered over">
+                        <mat-icon>assignment_turned_in</mat-icon>
+                    </button>-->
+
+<!--<button style="height: 27px;margin-left: 20px;" mat-icon-button (click)="deleteDemande(demande.id_demande)"
+                        color="warn" matTooltip="delete"
+                        aria-label="Button that displays a tooltip when focused or hovered over">
+                        <mat-icon>delete</mat-icon>
+                    </button>-->
+
+
+
+
+<!--<div class="card">
+    <div class="card-head">
+        <div class="title">Demande Avarie</div>
+        <div class="search-container">
+            <mat-form-field style="width: 180px; margin-left: 15px;">
+                <input (input)="searchDemandes(filter.value)" matInput placeholder="Search demand" type="text"
+                    style="width: 190px;" #filter>
+                <mat-icon fontIcon="search" matSuffix></mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <mat-list *ngIf="dataSource.data.length > 0">
+            <mat-list-item *ngFor="let demande of dataSource.data">
+
+                <mat-card class="demande-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-card-title>Demande ID: {{ demande.id_demande }}</mat-card-title>
+                        <mat-card-subtitle>Type Avarie: {{ demande.type_avarie }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                            <p><strong>Date Demande:</strong> {{ demande.date_demande }}</p>
+                            <p><strong>Description:</strong> {{ demande.description }}</p>
+                            <p><strong>Date Avarie:</strong> {{ demande.date_avarie }} {{ demande.heure_avarie }}</p>
+                            <p><strong>Statut:</strong> <span
+                                    [ngClass]="getStatutClass(demande.statut)">{{demande.statut}}</span></p>
+
+                            <p><strong>Véhicule: </strong>{{demande.vehicule?.idvehicule}} {{ demande.numparc}} - {{demande.immatricule }} - {{demande.modele }} {{demande.vehicule?.annee }} {{demande.vehicule?.etat }}</p>
+
+                            <p><strong>Chauffeur:</strong>{{demande.chauffeur?.id_chauf}} {{ demande.matricule_chauf }}: {{demande.nom }} {{demande.prenom }}</p>
+
+                            <p><strong>CIN:</strong> {{ demande.cin }}</p>
+                            <p><strong>Téléphone:</strong> {{ demande.telephone }}</p>
+                            <p><strong>Email:</strong> {{ demande.email  }}</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-icon-button (click)="updateStatus(demande)" color="primary" matTooltip="Edit">
+                            <mat-icon matListItemIcon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="deleteDemande(demande.id_demande)" color="warn"
+                            matTooltip="Delete">
+                            <mat-icon matListItemIcon>delete</mat-icon>
+                        </button>
+                    </mat-card-actions>
+
+                    
+                </mat-card>
+
+                
+            </mat-list-item>
+        </mat-list>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="card">
+    <div class="card-head">
+        <div class="title">Demande Avarie</div>
+        <div class="search-container">
+            <mat-form-field style="width: 180px; margin-left: 15px;">
+                <input (input)="searchDemandes(filter.value)" matInput placeholder="Search demand" type="text"
+                    style="width: 190px;" #filter>
+                <mat-icon fontIcon="search" matSuffix></mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <mat-list *ngIf="dataSource.data.length > 0">
+            <mat-list-item *ngFor="let demande of dataSource.data">
+                <mat-card class="demande-card">
+                    <mat-card-header>
+                        <mat-card-title>Demande ID: {{ demande.id_demande }}</mat-card-title>
+                        <mat-card-subtitle>Type Avarie: {{ demande.type_avarie }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p><strong>Date Demande:</strong> {{ demande.date_demande }}</p>
+                        <p><strong>Description:</strong> {{ demande.description }}</p>
+                        <p><strong>Date Avarie:</strong> {{ demande.date_avarie }} {{ demande.heure_avarie }}</p>
+                        <p><strong>Statut:</strong> <span [ngClass]="getStatutClass(demande.statut)">{{ demande.statut }}</span></p>
+
+                        <p><strong>Véhicule:</strong> {{ demande.numparc }} - {{ demande.immatricule }} - {{ demande.modele }}</p>
+                        
+                        <p><strong>Chauffeur:</strong> {{ demande.matricule_chauf }}: {{ demande.nom }} {{ demande.prenom }}</p>
+                        <p><strong>CIN:</strong> {{ demande.cin }}</p>
+                        <p><strong>Téléphone:</strong> {{ demande.telephone }}</p>
+                        <p><strong>Email:</strong> {{ demande.email }}</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-icon-button (click)="updateStatus(demande)" color="primary" matTooltip="Edit">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        
+                    </mat-card-actions>
+                </mat-card>
+            </mat-list-item>
+        </mat-list>
+
+    </div>
+</div>
+-->

@@ -1,0 +1,18 @@
+<!--<ngx-ui-loader></ngx-ui-loader>-->
+
+<app-tool-bar></app-tool-bar>
+
+<app-header (onToggleHeaderNav)="onToggleHeaderNav($event)"></app-header>
+
+<div class="main-container" [class.collapsed]="isHeaderNavCollapsed">
+    <app-home 
+       [collapsed]="isHeaderNavCollapsed"
+       [screenwidth]="screenwidth">
+    </app-home>
+</div>
+
+<!--<nav>
+    <a routerLink="forgot-password" *ngIf="authService.isLoggedIn()">forgot password</a>
+
+</nav>-->
+

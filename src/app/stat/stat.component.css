@@ -1,0 +1,49 @@
+.chart-container {
+    padding: 20px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-group input.form-control {
+    width: 20%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-group input.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+  }
+  
+  .form-group button.btn {
+    display: inline-block;
+    width: 20%;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 300;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-group button.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+  }
+  
+  .form-group button.btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
