@@ -1,18 +1,60 @@
-<!--<div class="card">
-    <div class="card-body">
-        <div class="workshop-details">
-            <ul>
-                <li>
-                    <strong>Order ID:</strong> {{ ordre.id_ordre }}<br>
-                    <strong>Vehicle:</strong> {{ ordre.diagnostic?.demande?.vehicule?.numparc }}<br>
-                    <strong>Emergency Breakdown:</strong> {{ ordre.urgence_panne }}<br>
-                    <strong>Planning:</strong> {{ ordre.planning }}<br>
-                    <strong>Order Date:</strong> {{ ordre.date_ordre }}<br>
-                    <strong>Status:</strong> {{ ordre.status }}<br>
-                    <strong>Technician:</strong> {{ ordre.technicien?.matricule_techn }} {{ ordre.technicien?.nom }}
-                    {{ordre.technicien?.prenom }}<br>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>-->
+<div *ngIf="ordre">
+  <h2>Détails de l'Ordre de Travail n°{{ ordre.id_ordre }}</h2>
+
+  <h3>Diagnostic</h3>
+  <ul>
+    <li><strong>ID Diagnostic :</strong> {{ ordre.diagnostic.id_diagnostic }}</li>
+    <li><strong>Description de la panne :</strong> {{ ordre.diagnostic.description_panne }}</li>
+    <li><strong>Causes de la panne :</strong> {{ ordre.diagnostic.causes_panne }}</li>
+    <li><strong>Actions :</strong> {{ ordre.diagnostic.actions }}</li>
+    <li><strong>Date du diagnostic :</strong> {{ ordre.diagnostic.date_diagnostic }}</li>
+    <li><strong>Heure du diagnostic :</strong> {{ ordre.diagnostic.heure_diagnostic }}</li>
+  </ul>
+
+  <h3>Demande associée</h3>
+  <ul>
+    <li><strong>ID Demande :</strong> {{ ordre.diagnostic.demande.id_demande }}</li>
+    <li><strong>Type d'avarie :</strong> {{ ordre.diagnostic.demande.type_avarie }}</li>
+    <li><strong>Description :</strong> {{ ordre.diagnostic.demande.description }}</li>
+  </ul>
+
+  <h3>Véhicule</h3>
+  <ul>
+    <li><strong>Numéro de parc :</strong> {{ ordre.diagnostic.demande.vehicule.numparc }}</li>
+  </ul>
+
+  <h3>Détails de l’ordre</h3>
+  <ul>
+    <li><strong>Urgence panne :</strong> {{ ordre.urgence_panne }}</li>
+    <li><strong>Planning :</strong> {{ ordre.planning }}</li>
+    <li><strong>Date de l'ordre :</strong> {{ ordre.date_ordre }}</li>
+    <li><strong>Statut :</strong> {{ ordre.status }}</li>
+  </ul>
+
+  <h3>Travaux</h3>
+  <ul>
+    <li><strong>ID Travaux :</strong> {{ ordre.travaux.id_travaux }}</li>
+    <li><strong>Nom du travail :</strong> {{ ordre.travaux.nom_travail }}</li>
+    <li><strong>Type d'atelier :</strong> {{ ordre.travaux.type_atelier }}</li>
+  </ul>
+
+  <h3>Atelier</h3>
+  <ul>
+    <li><strong>Nom :</strong> {{ ordre.atelier.nom_atelier }}</li>
+    <li><strong>Téléphone :</strong> {{ ordre.atelier.telephone }}</li>
+    <li><strong>Email :</strong> {{ ordre.atelier.email }}</li>
+    <li><strong>Capacité :</strong> {{ ordre.atelier.capacite }}</li>
+  </ul>
+
+  <h3>Technicien</h3>
+  <ul>
+    <li><strong>Nom :</strong> {{ ordre.technicien.nom }}</li>
+    <li><strong>Prénom :</strong> {{ ordre.technicien.prenom }}</li>
+    <li><strong>Matricule :</strong> {{ ordre.technicien.matricule_techn }}</li>
+    <li><strong>CIN :</strong> {{ ordre.technicien.cin }}</li>
+    <li><strong>Téléphone :</strong> {{ ordre.technicien.telephone_techn }}</li>
+    <li><strong>Email :</strong> {{ ordre.technicien.email_techn }}</li>
+    <li><strong>Spécialité :</strong> {{ ordre.technicien.specialite }}</li>
+
+  </ul>
+</div>

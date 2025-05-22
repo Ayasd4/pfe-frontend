@@ -115,12 +115,12 @@ export class DemandeComponent implements OnInit {
     this.demandeService.fetchAllDemandes().subscribe((data) => {
       console.log('Données récupérées : ', data);
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenDemandes') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenDemandes') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleDemandes = data.filter(demande => !hiddenIds.includes(demande.id_demande));
+      //const visibleDemandes = data.filter(demande => !hiddenIds.includes(demande.id_demande));
 
-      this.demandes = visibleDemandes;
+      this.demandes = data;
       //this.filteredDemandes = data;
       this.dataSource = new MatTableDataSource<Demande>(this.demandes);//this.filteredDemandes
       this.dataSource.sort = this.sort;
@@ -294,25 +294,15 @@ export class DemandeComponent implements OnInit {
   deleteDemande(id_demande: Number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      /*this.demandeService.deleteDemande(id_demande).subscribe(() => {
+      this.demandeService.deleteDemande(id_demande).subscribe(() => {
         this.demandes = this.demandes.filter(item => item.id_demande !== id_demande);
         this.snackBar.open('Request deleted successfully!', 'Close', { duration: 6000 });
         window.location.reload();
       }, (error) => {
         console.error("Error while deleting Request:", error);
 
-      });*/
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenDemandes') || '[]');
-      if (!hiddenIds.includes(id_demande)) {
-        hiddenIds.push(id_demande);
-        localStorage.setItem('hiddenDemandes', JSON.stringify(hiddenIds));
+      });
 
-        this.demandes = this.demandes.filter(item => item.id_demande !== id_demande);
-        this.dataSource.data = this.demandes;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('Request deleted successfully!', 'Close', { duration: 6000 });
-      }
     }
   }
 
@@ -329,3 +319,21 @@ export class DemandeComponent implements OnInit {
   }
 
 }
+
+
+
+
+
+
+
+/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenDemandes') || '[]');
+      if (!hiddenIds.includes(id_demande)) {
+        hiddenIds.push(id_demande);
+        localStorage.setItem('hiddenDemandes', JSON.stringify(hiddenIds));
+
+        this.demandes = this.demandes.filter(item => item.id_demande !== id_demande);
+        this.dataSource.data = this.demandes;
+
+        // Afficher un message de confirmation
+        this.snackBar.open('Request deleted successfully!', 'Close', { duration: 6000 });
+      }*/

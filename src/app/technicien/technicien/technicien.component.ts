@@ -77,14 +77,14 @@ export class TechnicienComponent implements OnInit {
 
   loadTechniciens(): void {
     this.technicienService.fetchAllTechnicien().subscribe((data) => {
-      //console.log('Données récupérées : ', data);
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenTechniciens') || '[]');
+      console.log('Données récupérées : ', data);
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenTechniciens') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleTechniciens = data.filter(technicien => !hiddenIds.includes(technicien.id_technicien));
+      //const visibleTechniciens = data.filter(technicien => !hiddenIds.includes(technicien.id_technicien));
 
-      this.techniciens = visibleTechniciens;
-      this.dataSource = new MatTableDataSource<Technicien>(this.techniciens);
+      this.techniciens = data;
+      this.dataSource = new MatTableDataSource<Technicien>(data);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -169,16 +169,25 @@ export class TechnicienComponent implements OnInit {
   deleteTechnicien(id_technicien: Number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      /*this.technicienService.deleteTechnicien(id_technicien).subscribe(() => {
+      this.technicienService.deleteTechnicien(id_technicien).subscribe(() => {
         this.techniciens = this.techniciens.filter(item => item.id_technicien !== id_technicien);
         this.snackBar.open(' Technician successfully!', 'Close', { duration: 6000 });
         window.location.reload();
       }, (error) => {
         console.error("Error while deleting Technician:", error);
       }
-      );*/
+      );
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenTechniciens') || '[]');
+
+    }
+  }
+
+}
+
+
+
+
+/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenTechniciens') || '[]');
       if (!hiddenIds.includes(id_technicien)) {
         hiddenIds.push(id_technicien);
         localStorage.setItem('hiddenTechniciens', JSON.stringify(hiddenIds));
@@ -189,8 +198,4 @@ export class TechnicienComponent implements OnInit {
         // Afficher un message de confirmation
         this.snackBar.open('Technician deleted successfully!', 'Close', { duration: 6000 });
       }
-    }
-  }
-
-  
-}
+    }  */

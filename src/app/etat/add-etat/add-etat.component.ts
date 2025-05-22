@@ -213,6 +213,7 @@ export class AddEtatComponent implements OnInit {
             this.etat.kilometrage.id = response.kilometrage.id;
 
           }
+
           console.log("planning created successfully:", response);
           this.snackBar.open('planning created successfully!', 'Close', { duration: 9000 });
           this.dialogRef.close();

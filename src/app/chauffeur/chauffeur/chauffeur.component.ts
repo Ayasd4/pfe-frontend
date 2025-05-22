@@ -64,12 +64,12 @@ export class ChauffeurComponent implements OnInit {
 
   loadChauffeurs(): void {
     this.chauffeurService.fetchAllChauffeurs().subscribe((data) => {
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleChauffeurs = data.filter(chauffeur => !hiddenIds.includes(chauffeur.id_chauf));
+      //const visibleChauffeurs = data.filter(chauffeur => !hiddenIds.includes(chauffeur.id_chauf));
 
-      this.chauffeurs = visibleChauffeurs;
+      this.chauffeurs = data;
       this.dataSource = new MatTableDataSource<Chauffeur>(this.chauffeurs);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -151,7 +151,7 @@ export class ChauffeurComponent implements OnInit {
   deleteChauffeur(id_chauf: Number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      /*  this.chauffeurService.deleteChauffeur(id_chauf).subscribe((data) => {
+       this.chauffeurService.deleteChauffeur(id_chauf).subscribe((data) => {
           this.chauffeurs = this.chauffeurs.filter(item => item.id_chauf !== id_chauf);
           this.snackBar.open('driver deleted successfully!', 'Close', { duration: 6000 });
           window.location.reload();
@@ -159,9 +159,18 @@ export class ChauffeurComponent implements OnInit {
           console.error("Error while deleted driver :", error);
         }
         );
-      }*/
-      // Ajouter l'ID de l'atelier supprimé dans le localStorage
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
+      }
+    }
+
+  }
+
+
+
+
+
+
+  
+/* const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
       if (!hiddenIds.includes(id_chauf)) {
         hiddenIds.push(id_chauf);
         localStorage.setItem('hiddenChauffeurs', JSON.stringify(hiddenIds));
@@ -172,7 +181,4 @@ export class ChauffeurComponent implements OnInit {
         // Afficher un message de confirmation
         this.snackBar.open('driver deleted successfully!', 'Close', { duration: 6000 });
       }
-    }
-
-  }
-}
+    }*/

@@ -10,7 +10,7 @@ export class DemandeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  baseUrl: string = "/demandes";
+  baseUrl: string = "http://localhost:3100/demandes";
 
   fetchAllDemandes(): Observable<Demande[]> {
     return this.httpClient.get<Demande[]>(`${this.baseUrl}`);

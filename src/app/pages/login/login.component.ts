@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +25,7 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   errorMessage: string = '';
   userRole: string = '';  // Variable pour stocker le rôle de l'utilisateur
@@ -46,6 +46,13 @@ export class LoginComponent {
       password: ['', Validators.required]
     });
 
+  }
+  ngOnInit(): void {
+    document.body.classList.add('login-background');
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('login-background');
   }
 
   get email() {

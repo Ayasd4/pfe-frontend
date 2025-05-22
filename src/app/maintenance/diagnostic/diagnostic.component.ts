@@ -88,12 +88,12 @@ export class DiagnosticComponent implements OnInit {
     this.diagnosticService.fetchAllDiagnostic().subscribe((data) => {
       console.log("data", data);  // Vérifiez la structure de la réponse API
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenDiagnostics') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenDiagnostics') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleDiagnostics = data.filter(diagnostic => !hiddenIds.includes(diagnostic.id_diagnostic));
+      //const visibleDiagnostics = data.filter(diagnostic => !hiddenIds.includes(diagnostic.id_diagnostic));
 
-      this.diagnostics = visibleDiagnostics;
+      this.diagnostics = data;
       this.dataSource = new MatTableDataSource<Diagnostic>(this.diagnostics);//this.filteredDemandes
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -226,16 +226,27 @@ export class DiagnosticComponent implements OnInit {
   deleteDiagnostic(id_diagnostic: Number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      /*this.diagnosticService.deleteDiagnostic(id_diagnostic).subscribe(() => {
+      this.diagnosticService.deleteDiagnostic(id_diagnostic).subscribe(() => {
         this.diagnostics = this.diagnostics.filter(item => item.id_diagnostic !== id_diagnostic);
         this.snackBar.open('Diagnostic deleted successfully!', 'Close', { duration: 6000 });
         window.location.reload();
       }, (error) => {
         console.error("Error while deleting Diagnostic:", error);
       }
-      );*/
+      );
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenDiagnostics') || '[]');
+    }
+  }
+
+}
+
+
+
+
+
+
+
+/**  const hiddenIds = JSON.parse(localStorage.getItem('hiddenDiagnostics') || '[]');
       if (!hiddenIds.includes(id_diagnostic)) {
         hiddenIds.push(id_diagnostic);
         localStorage.setItem('hiddenDiagnostics', JSON.stringify(hiddenIds));
@@ -245,8 +256,4 @@ export class DiagnosticComponent implements OnInit {
 
         this.snackBar.open('Diagnostic deleted successfully!', 'Close', { duration: 6000 });
         window.location.reload();
-      }
-    }
-  }
-
-}
+      } */

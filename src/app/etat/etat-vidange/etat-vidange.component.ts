@@ -45,7 +45,7 @@ export class EtatVidangeComponent implements OnInit {
 
   displayedColumns: string[] = ['id_vidange', 'id_vehicule', 'id_kilometrage', 'date', 'km_derniere_vd', 'km_prochaine_vd', 'reste_km', 'actions'];
   dataSource = new MatTableDataSource<Etat>();
- // searchParams: any = {};
+  // searchParams: any = {};
   numparc: any = undefined;
   km_vidange: any = undefined;
   vehiculeId: any = undefined;
@@ -115,12 +115,12 @@ export class EtatVidangeComponent implements OnInit {
     this.etatService.fetchAllEtats().subscribe((data) => {
       console.log('Données récupérer:', data);
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenEtats') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenEtats') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleEtats = data.filter(etat => !hiddenIds.includes(etat.id_vidange));
+      //const visibleEtats = data.filter(etat => !hiddenIds.includes(etat.id_vidange));
 
-      this.etats = visibleEtats;
+      this.etats = data;
       this.dataSource = new MatTableDataSource<Etat>(this.etats);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -155,7 +155,7 @@ export class EtatVidangeComponent implements OnInit {
     });
   }
 
-  filterValue: any ={};
+  filterValue: any = {};
   searchEtats(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -214,7 +214,27 @@ export class EtatVidangeComponent implements OnInit {
   deleteEtat(id_vidange: number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenEtats') || '[]');
+      this.etatService.deleteEtat(id_vidange).subscribe(() => {
+        this.etats = this.etats.filter(item => item.id_vidange !== id_vidange);
+        this.snackBar.open('Request deleted successfully!', 'Close', { duration: 6000 });
+        window.location.reload();
+      }, (error) => {
+        console.error("Error while deleting Request:", error);
+
+      });
+    }
+  }
+
+}
+
+
+
+
+
+
+
+
+/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenEtats') || '[]');
       if (!hiddenIds.includes(id_vidange)) {
         hiddenIds.push(id_vidange);
         localStorage.setItem('hiddenEtats', JSON.stringify(hiddenIds));
@@ -224,8 +244,4 @@ export class EtatVidangeComponent implements OnInit {
 
         // Afficher un message de confirmation
         this.snackBar.open('Planning deleted successfully!', 'Close', { duration: 6000 });
-      }
-    }
-  }
-
-}
+      } */

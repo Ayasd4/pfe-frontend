@@ -19,6 +19,8 @@ import { OrdreService } from 'src/app/ordre/ordre.service';
 import { Technicien } from 'src/app/technicien/technicien';
 import { TechnicienService } from 'src/app/technicien/technicien.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { ConsulterComponent } from '../consulter/consulter.component';
+import { ConsulterService } from '../consulter/consulter.service';
 
 @Component({
   selector: 'app-intervention',
@@ -53,6 +55,7 @@ export class InterventionComponent implements OnInit {
     private snackBar: MatSnackBar,
     private ordreService: OrdreService,
     private technicienService: TechnicienService,
+    private consulterService: ConsulterService
 
   ) { }
 
@@ -146,12 +149,12 @@ export class InterventionComponent implements OnInit {
     this.interventionService.fetchAllInterventions().subscribe((data) => {
       console.log('Données récupérées : ', data);
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleInterventions = data.filter(intervention => !hiddenIds.includes(intervention.id_intervention));
+      //const visibleInterventions = data.filter(intervention => !hiddenIds.includes(intervention.id_intervention));
 
-      this.interventions = visibleInterventions;
+      this.interventions = data;
       this.dataSource = new MatTableDataSource<Intervention>(this.interventions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -273,6 +276,9 @@ export class InterventionComponent implements OnInit {
     });
   }
 
+  
+
+
   editIntervention(intervention: Intervention) {
     const dialogRef = this.dialog.open(AddInterventionComponent, {
       width: '600px',
@@ -297,28 +303,17 @@ export class InterventionComponent implements OnInit {
 
   deleteIntervention(id_intervention: Number) {
 
-    /*this.interventionService.deleteIntervention(id_intervention).subscribe(() => {
-      this.interventions = this.interventions.filter(item => item.id_intervention !== id_intervention);
-      this.snackBar.open('Intervention deleted successfully!', 'Close', { duration: 6000 });
-      window.location.reload();
-    }, (error) => {
-      console.error("Error while deleting Intervention:", error);
-
-    }
-    );*/
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
-      if (!hiddenIds.includes(id_intervention)) {
-        hiddenIds.push(id_intervention);
-        localStorage.setItem('hiddenInterventions', JSON.stringify(hiddenIds));
-
+      this.interventionService.deleteIntervention(id_intervention).subscribe(() => {
         this.interventions = this.interventions.filter(item => item.id_intervention !== id_intervention);
-        this.dataSource.data = this.interventions;
-
-        // Afficher un message de confirmation
         this.snackBar.open('Intervention deleted successfully!', 'Close', { duration: 6000 });
+        window.location.reload();
+      }, (error) => {
+        console.error("Error while deleting Intervention:", error);
+
       }
+      );
     }
   }
 
@@ -336,3 +331,24 @@ export class InterventionComponent implements OnInit {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
+      if (!hiddenIds.includes(id_intervention)) {
+        hiddenIds.push(id_intervention);
+        localStorage.setItem('hiddenInterventions', JSON.stringify(hiddenIds));
+
+        this.interventions = this.interventions.filter(item => item.id_intervention !== id_intervention);
+        this.dataSource.data = this.interventions;
+
+        // Afficher un message de confirmation
+        this.snackBar.open('Intervention deleted successfully!', 'Close', { duration: 6000 });
+      } */

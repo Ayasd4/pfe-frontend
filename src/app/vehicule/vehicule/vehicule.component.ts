@@ -69,12 +69,12 @@ export class VehiculeComponent implements OnInit {
   loadVehicules(): void {
     this.vehiculeService.fetchAllVehicules().subscribe((data) => {
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenVehicules') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenVehicules') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleVehicules = data.filter(vehicule => !hiddenIds.includes(vehicule.idvehicule));
+      //const visibleVehicules = data.filter(vehicule => !hiddenIds.includes(vehicule.idvehicule));
 
-      this.vehicules = visibleVehicules;
+      this.vehicules = data;
       this.dataSource = new MatTableDataSource<Vehicule>(data);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

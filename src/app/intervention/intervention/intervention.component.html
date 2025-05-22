@@ -169,23 +169,21 @@
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                         <mat-icon>more_vert</mat-icon>
                     </button>
-
                     <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editIntervention(intervention)">
+                        <mat-icon>edit</mat-icon>
+                        <span>edit intervention</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteIntervention(intervention.id_intervention)">
+                        <mat-icon>delete</mat-icon>
+                        <span>delete order</span>
 
-                        <button mat-menu-item (click)="editIntervention(intervention)">
-                            <mat-icon>edit</mat-icon>
-                            <span>edit intervention</span>
-                        </button>
-                        <button mat-menu-item (click)="deleteIntervention(intervention.id_intervention)">
-                            <mat-icon>delete</mat-icon>
-                            <span>delete order</span>
+                    </button>
+                    <button mat-menu-item (click)="generatePdf(intervention.id_intervention)">
+                        <mat-icon>file_download</mat-icon>
+                        <span>export to pdf</span>
 
-                        </button>
-                        <button mat-menu-item (click)="generatePdf(intervention.id_intervention)">
-                            <mat-icon>file_download</mat-icon>
-                            <span>export to pdf</span>
-
-                        </button>
+                    </button>
                     </mat-menu>
                     <!--<button style="height: 27px;margin-left: 20px;" mat-icon-button
                         (click)="editIntervention(intervention)" color="primary" matTooltip="edit"

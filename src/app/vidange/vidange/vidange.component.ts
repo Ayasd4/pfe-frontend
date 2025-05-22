@@ -61,9 +61,10 @@ export class VidangeComponent implements OnInit {
 
   vidange: Vidange = {
     id_vd: 0,
-    vehicule: { 
+    vehicule: {
       idvehicule: 0,
-      numparc: this.numparc },
+      numparc: this.numparc
+    },
     date_vidange: '',
     km_vidange: this.km_vidange
   }
@@ -92,12 +93,12 @@ export class VidangeComponent implements OnInit {
     this.vidangeService.fetchAllVidanges().subscribe((data) => {
       console.log('Données récupérer:', data);
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenVidanges') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenVidanges') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleVidanges = data.filter(vidange => !hiddenIds.includes(vidange.id_vd));
+      // const visibleVidanges = data.filter(vidange => !hiddenIds.includes(vidange.id_vd));
 
-      this.vidanges = visibleVidanges;
+      this.vidanges = data;
       this.dataSource = new MatTableDataSource<Vidange>(this.vidanges);//this.filteredDemandes
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -116,10 +117,10 @@ export class VidangeComponent implements OnInit {
     }
   }
 
-  goBack(){
+  goBack() {
     this.router.navigate(['/etat']);
   }
-  
+
   /*searchParams: any = {
     numparc: 0,
     date_vidange: '',
@@ -164,51 +165,75 @@ export class VidangeComponent implements OnInit {
   }
 
   openDialog(): void {
-      const dialogRef = this.dialog.open(AddVidangeComponent, {
-        width: '400px',
-        data: {}
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.vidangeService.createVidange(result).subscribe(
-            () => {
-              console.log('new oil change created successfully!');
-              window.location.reload();
-            },
-            (error) => {
-              console.log(error);
-              window.location.reload();
-            });
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(AddVidangeComponent, {
+      width: '400px',
+      data: {}
+    });
 
-    editVidange(vidange: Vidange) {
-        const dialogRef = this.dialog.open(AddVidangeComponent, {
-          width: '400px',
-          data: { ...vidange }, //passer les données de demande
-        });
-    
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.vidangeService.updateVidange(result).subscribe(
-              () => {
-                console.log("oil change updated!", result);
-                this.snackBar.open("oil change updated successfully", 'close', { duration: 9000 });
-                window.location.reload(); // Rafraîchir après mise à jour
-              }, (error) => {
-                console.error('Error while updated oil change', error);
-              }
-            );
-          }
-        });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.vidangeService.createVidange(result).subscribe(
+          () => {
+            console.log('new oil change created successfully!');
+            window.location.reload();
+          },
+          (error) => {
+            console.log(error);
+            window.location.reload();
+          });
       }
-    
-      deleteVidange(id_vd: number) {
-        const isConfirmed = window.confirm("Are you sure you want to delete?");
-        if (isConfirmed) {
-          const hiddenIds = JSON.parse(localStorage.getItem('hiddenVidanges') || '[]');
+    });
+  }
+
+  editVidange(vidange: Vidange) {
+    const dialogRef = this.dialog.open(AddVidangeComponent, {
+      width: '400px',
+      data: { ...vidange }, //passer les données de demande
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.vidangeService.updateVidange(result).subscribe(
+          () => {
+            console.log("oil change updated!", result);
+            this.snackBar.open("oil change updated successfully", 'close', { duration: 9000 });
+            window.location.reload(); // Rafraîchir après mise à jour
+          }, (error) => {
+            console.error('Error while updated oil change', error);
+          }
+        );
+      }
+    });
+  }
+
+  deleteVidange(id_vd: number) {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    if (isConfirmed) {
+      this.vidangeService.deleteVidange(id_vd).subscribe((data) => {
+        this.vidanges = this.vidanges.filter(item => item.id_vd !== id_vd);
+        this.snackBar.open('Vehicle updated successfully!', 'Close', { duration: 6000 });
+        window.location.reload();
+      }, (error) => {
+        console.error("Error while deleted vehicle :", error);
+      }
+      );
+    }
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenVidanges') || '[]');
           if (!hiddenIds.includes(id_vd)) {
             hiddenIds.push(id_vd);
             localStorage.setItem('hiddenVidanges', JSON.stringify(hiddenIds));
@@ -218,9 +243,4 @@ export class VidangeComponent implements OnInit {
     
             // Afficher un message de confirmation
             this.snackBar.open('Oil change deleted successfully!', 'Close', { duration: 6000 });
-          }
-        }
-      }
-    
-  
-}
+          }*/

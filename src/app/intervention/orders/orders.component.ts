@@ -49,7 +49,7 @@ import { ConsulterComponent } from '../consulter/consulter.component';
     MatSnackBarModule,
     MatMenuModule,
   ],
-  
+
 })
 export class OrdersComponent implements AfterViewInit {
 
@@ -278,7 +278,7 @@ export class OrdersComponent implements AfterViewInit {
   //@ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
 
 
-  consultOrder(ordre: Ordre) {
+  /*consultOrder(ordre: Ordre) {
     //this.menuTrigger.closeMenu();
      this.dialog.open(ConsulterComponent, {
       width: '800px',
@@ -286,6 +286,16 @@ export class OrdersComponent implements AfterViewInit {
       data: { ordre }, // on passe l'ordre sélectionné
       //autoFocus: true
     });
+  }*/
+
+  consulterOrder(id_ordre: Number) {
+    const dialogRef = this.dialog.open(ConsulterComponent, {
+      width: '600px',
+      height: '600px',
+      data: { id_ordre }, //passer les données de demande
+    });
+
+
   }
 
   editStatus(ordre: Ordre) {

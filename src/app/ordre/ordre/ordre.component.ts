@@ -173,12 +173,12 @@ export class OrdreComponent implements OnInit {
     this.ordreService.fetchAllOrders().subscribe((data) => {
       console.log('Données récupérées : ', data);
 
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
+      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
 
       // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleOrdres = data.filter(ordre => !hiddenIds.includes(ordre.id_ordre));
+      //const visibleOrdres = data.filter(ordre => !hiddenIds.includes(ordre.id_ordre));
 
-      this.ordres = visibleOrdres;
+      this.ordres = data;
       this.dataSource = new MatTableDataSource<Ordre>(this.ordres);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -359,29 +359,19 @@ export class OrdreComponent implements OnInit {
   }
 
   deleteOrder(id_ordre: Number) {
-
-    /*this.ordreService.deleteOrder(id_ordre).subscribe(() => {
-      this.ordres = this.ordres.filter(item => item.id_ordre !== id_ordre);
-      this.snackBar.open('Order deleted successfully!', 'Close', { duration: 6000 });
-      window.location.reload();
-    }, (error) => {
-      console.error("Error while deleting Request:", error);
-
-    }
-    );*/
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
-      if (!hiddenIds.includes(id_ordre)) {
-        hiddenIds.push(id_ordre);
-        localStorage.setItem('hiddenOrdres', JSON.stringify(hiddenIds));
-
+      this.ordreService.deleteOrder(id_ordre).subscribe(() => {
         this.ordres = this.ordres.filter(item => item.id_ordre !== id_ordre);
-        this.dataSource.data = this.ordres;
-
-        // Afficher un message de confirmation
         this.snackBar.open('Order deleted successfully!', 'Close', { duration: 6000 });
+        window.location.reload();
+      }, (error) => {
+        console.error("Error while deleting Request:", error);
+  
       }
+      );
+
+      
     }
   }
 
@@ -407,7 +397,17 @@ export class OrdreComponent implements OnInit {
 
 
 
+/**const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
+      if (!hiddenIds.includes(id_ordre)) {
+        hiddenIds.push(id_ordre);
+        localStorage.setItem('hiddenOrdres', JSON.stringify(hiddenIds));
 
+        this.ordres = this.ordres.filter(item => item.id_ordre !== id_ordre);
+        this.dataSource.data = this.ordres;
+
+        // Afficher un message de confirmation
+        this.snackBar.open('Order deleted successfully!', 'Close', { duration: 6000 });
+      } */
 /*
  // Update displayed columns based on selected agency
   get currentDisplayedColumns(): string[] {
