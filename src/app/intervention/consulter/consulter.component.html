@@ -1,60 +1,180 @@
-<div *ngIf="ordre">
-  <h2>Détails de l'Ordre de Travail n°{{ ordre.id_ordre }}</h2>
+<div *ngIf="ordre" class="container my-4">
+    <div class="header-container">
+      <h2 class="fw-bold">Consult Order N°{{ ordre.id_ordre }}</h2>
+      <button color="warn" mat-icon-button mat-dialog-close class="close-btn" aria-label="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
 
-  <h3>Diagnostic</h3>
-  <ul>
-    <li><strong>ID Diagnostic :</strong> {{ ordre.diagnostic.id_diagnostic }}</li>
-    <li><strong>Description de la panne :</strong> {{ ordre.diagnostic.description_panne }}</li>
-    <li><strong>Causes de la panne :</strong> {{ ordre.diagnostic.causes_panne }}</li>
-    <li><strong>Actions :</strong> {{ ordre.diagnostic.actions }}</li>
-    <li><strong>Date du diagnostic :</strong> {{ ordre.diagnostic.date_diagnostic }}</li>
-    <li><strong>Heure du diagnostic :</strong> {{ ordre.diagnostic.heure_diagnostic }}</li>
-  </ul>
 
-  <h3>Demande associée</h3>
-  <ul>
-    <li><strong>ID Demande :</strong> {{ ordre.diagnostic.demande.id_demande }}</li>
-    <li><strong>Type d'avarie :</strong> {{ ordre.diagnostic.demande.type_avarie }}</li>
-    <li><strong>Description :</strong> {{ ordre.diagnostic.demande.description }}</li>
-  </ul>
+  <div class="card shadow-sm">
+    <div class="card-body">
 
-  <h3>Véhicule</h3>
-  <ul>
-    <li><strong>Numéro de parc :</strong> {{ ordre.diagnostic.demande.vehicule.numparc }}</li>
-  </ul>
+      <div class="row">
 
-  <h3>Détails de l’ordre</h3>
-  <ul>
-    <li><strong>Urgence panne :</strong> {{ ordre.urgence_panne }}</li>
-    <li><strong>Planning :</strong> {{ ordre.planning }}</li>
-    <li><strong>Date de l'ordre :</strong> {{ ordre.date_ordre }}</li>
-    <li><strong>Statut :</strong> {{ ordre.status }}</li>
-  </ul>
+        <!-- Colonne gauche -->
+        <div class="col-md-6">
 
-  <h3>Travaux</h3>
-  <ul>
-    <li><strong>ID Travaux :</strong> {{ ordre.travaux.id_travaux }}</li>
-    <li><strong>Nom du travail :</strong> {{ ordre.travaux.nom_travail }}</li>
-    <li><strong>Type d'atelier :</strong> {{ ordre.travaux.type_atelier }}</li>
-  </ul>
+          <fieldset class="mb-3">
+            <legend class="fw-semibold text-success">Diagnostic</legend>
+            <ul class="list-unstyled mb-0">
+              <li><strong>Parc Number:</strong> {{ ordre.diagnostic.demande.vehicule.numparc }}</li>
+              <li><strong>Description :</strong> {{ ordre.diagnostic.description_panne }}</li>
+              <li><strong>Causes :</strong> {{ ordre.diagnostic.causes_panne }}</li>
+              <li><strong>Actions :</strong> {{ ordre.diagnostic.actions }}</li>
+              <li><strong>Date :</strong> {{ ordre.diagnostic.date_diagnostic }}</li>
+              <li><strong>Hours :</strong> {{ ordre.diagnostic.heure_diagnostic }}</li>
+            </ul>
+          </fieldset>
 
-  <h3>Atelier</h3>
-  <ul>
-    <li><strong>Nom :</strong> {{ ordre.atelier.nom_atelier }}</li>
-    <li><strong>Téléphone :</strong> {{ ordre.atelier.telephone }}</li>
-    <li><strong>Email :</strong> {{ ordre.atelier.email }}</li>
-    <li><strong>Capacité :</strong> {{ ordre.atelier.capacite }}</li>
-  </ul>
+        </div>
 
-  <h3>Technicien</h3>
-  <ul>
-    <li><strong>Nom :</strong> {{ ordre.technicien.nom }}</li>
-    <li><strong>Prénom :</strong> {{ ordre.technicien.prenom }}</li>
-    <li><strong>Matricule :</strong> {{ ordre.technicien.matricule_techn }}</li>
-    <li><strong>CIN :</strong> {{ ordre.technicien.cin }}</li>
-    <li><strong>Téléphone :</strong> {{ ordre.technicien.telephone_techn }}</li>
-    <li><strong>Email :</strong> {{ ordre.technicien.email_techn }}</li>
-    <li><strong>Spécialité :</strong> {{ ordre.technicien.specialite }}</li>
+        <!-- Colonne droite -->
+        <div class="col-md-6">
 
-  </ul>
+          <fieldset class="mb-3">
+            <legend class="fw-semibold text-danger">Ordre</legend>
+            <ul class="list-unstyled mb-0">
+              <li><strong>Works :</strong> {{ ordre.travaux.nom_travail }}</li>
+
+              <li><strong>Emergency Breakdown :</strong> <span class="badge bg-danger">{{ ordre.urgence_panne }}</span>
+              </li>
+              <li><strong>Planning :</strong> {{ ordre.planning }}</li>
+              <li><strong>Date :</strong> {{ ordre.date_ordre }}</li>
+            </ul>
+          </fieldset>
+
+          <fieldset class="mb-3">
+            <legend class="fw-semibold text-warning">Workshop</legend>
+            <ul class="list-unstyled mb-0">
+              <li><strong>Name :</strong> {{ ordre.atelier.nom_atelier }}</li>
+              <li><strong>📞 :</strong> {{ ordre.atelier.telephone }}</li>
+              <li><strong>✉️ :</strong> {{ ordre.atelier.email }}</li>
+              <li><strong>Capacity :</strong> {{ ordre.atelier.capacite }}</li>
+            </ul>
+          </fieldset>
+
+          <fieldset class="mb-3">
+            <legend class="fw-semibold text-info">Technicien</legend>
+            <ul class="list-unstyled mb-0">
+              <li><strong>Name :</strong> {{ ordre.technicien.nom }} {{ ordre.technicien.prenom }}</li>
+              <li><strong>Technician Number :</strong> {{ ordre.technicien.matricule_techn }}</li>
+              <li><strong>📞 :</strong> {{ ordre.technicien.telephone_techn }}</li>
+              <li><strong>✉️ :</strong> {{ ordre.technicien.email_techn }}</li>
+              <li><strong>Speciality :</strong> {{ ordre.technicien.specialite }}</li>
+            </ul>
+          </fieldset>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<button mat-raised-button class="btn" (click)="interventionOrdre(ordre)">create Intervention</button>
+
+<div class="card-body">
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort *ngIf="dataSource.data.length > 0">
+
+    <ng-container matColumnDef="id_intervention">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let Intervention"> {{Intervention.id_intervention}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Vehicle">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicle </th>
+      <td mat-cell *matCellDef="let Intervention"> {{Intervention.numparc}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="technicien">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Technician </th>
+      <td mat-cell *matCellDef="let Intervention">
+        <div style="display: flex; flex-direction: column;">
+          <span><strong>Number:</strong> {{Intervention.matricule_techn}}</span>
+          <span><strong>Name:</strong> {{Intervention.nom}} {{Intervention.prenom}} </span>
+          <span><strong>Speciality:</strong> {{Intervention.specialite}}</span>
+
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="atelier">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Workshops </th>
+      <td mat-cell *matCellDef="let Intervention">
+        <div style="display: flex; flex-direction: column;">
+          <span><strong>Name:</strong> {{Intervention.nom_atelier}}</span>
+          <span><strong>Phone:</strong> {{Intervention.telephone}} </span>
+          <span><strong>E-mail:</strong> {{Intervention.email}}</span>
+
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date_debut">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start date of intervention</th>
+      <td mat-cell *matCellDef="let Intervention"> {{Intervention.date_debut}} {{Intervention.heure_debut}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date_fin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> End date of intervention</th>
+      <!--<td mat-cell *matCellDef="let Intervention"> {{Intervention.date_fin}} {{Intervention.heure_fin}} </td>-->
+      <td mat-cell *matCellDef="let Intervention">
+        {{ Intervention.date_fin ? Intervention.date_fin + ' ' + Intervention.heure_fin : 'N/A' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+      <td mat-cell *matCellDef="let Intervention" [ngClass]="getStatusClass(Intervention.status_intervention)">
+        {{Intervention.status_intervention}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="commentaire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Comment </th>
+      <td style="width: 50px; height: 30px;" mat-cell *matCellDef="let Intervention">
+        {{Intervention.commentaire}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+      <td mat-cell *matCellDef="let intervention">
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editIntervention(intervention)">
+            <mat-icon>edit</mat-icon>
+            <span>edit intervention</span>
+          </button>
+          <button mat-menu-item (click)="deleteIntervention(intervention.id_intervention)">
+            <mat-icon>delete</mat-icon>
+            <span>delete intervention</span>
+
+          </button>
+          <button mat-menu-item (click)="generatePdf(intervention.id_intervention)">
+            <mat-icon>file_download</mat-icon>
+            <span>export to pdf</span>
+
+          </button>
+        </mat-menu>
+
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let Interventions; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+  </mat-paginator>
+
 </div>

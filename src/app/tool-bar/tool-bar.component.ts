@@ -9,8 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({

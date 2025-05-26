@@ -1,4 +1,45 @@
-<div class="card">
+<div class="dashboard-container">
+    <div class="card">
+        <!-- Titre -->
+        <div class="title">Dashboard</div>
+        <div class="card-head"></div>
+        <!-- Top widgets -->
+        <div class="top-section">
+            <app-top-widgets></app-top-widgets>
+        </div>
+
+        <!-- Middle widgets (2 colonnes côte à côte) -->
+        <div class="middle-section row">
+            <div class="widget left">
+                <app-ordre-stat></app-ordre-stat>
+            </div>
+            <div class="widget right">
+                <app-disponibilite></app-disponibilite>
+            </div>
+        </div>
+
+        <!-- Bottom widgets (1 colonne pleine largeur) -->
+        <!-- Bottom widgets (2 colonnes côte à côte comme middle-section) -->
+        <div class="bottom-section">
+            <div class="widget">
+                <app-intervention-stat></app-intervention-stat>
+            </div>
+            <div class="widget">
+                <app-consommation-stat></app-consommation-stat>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!--<div class="card">
     <div class="title">Dashboard</div>
     <div class="card-head"></div>
     <div class="card-body">
@@ -20,6 +61,4 @@
 
         </div>
     </div>
-</div>
-
-
+</div>-->

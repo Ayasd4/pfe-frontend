@@ -7,6 +7,7 @@ import { DashboardService } from './dashboard.service';
 import { DisponibiliteComponent } from './disponibilite/disponibilite.component';
 import { OrdreStatComponent } from './ordre-stat/ordre-stat.component';
 import { ConsommationStatComponent } from './consommation-stat/consommation-stat.component';
+import { InterventionStatComponent } from './intervention-stat/intervention-stat.component';
 
 
 @Component({
@@ -21,7 +22,8 @@ import { ConsommationStatComponent } from './consommation-stat/consommation-stat
     TopWidgetsComponent,
     DisponibiliteComponent,
     OrdreStatComponent,
-    ConsommationStatComponent
+    ConsommationStatComponent,
+    InterventionStatComponent
   ]
 })
 

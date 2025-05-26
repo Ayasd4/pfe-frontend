@@ -10,6 +10,7 @@ export class DashboardService {
   baseUrl: string = "http://localhost:3100/dashboard";
   disponibiliteUrl: string = "http://localhost:3100/disponibilite";
   ordreUrl: string = "http://localhost:3100/ordreStat";
+
   constructor(private httpClient: HttpClient) { }
 
   getTotalVehicule(): Observable<any> {
@@ -60,5 +61,28 @@ export class DashboardService {
     return this.httpClient.get<any[]>(`${this.statistiquesUrl}/${numparc}`);
 }
 
+  intervUrl: string = "http://localhost:3100/intervStat";
+
+  elecTotal(): Observable<any> {
+    return this.httpClient.get<any>(`${this.intervUrl}/electrique`);
+  }
   
+  mecanTotal(): Observable<any> {
+    return this.httpClient.get<any>(`${this.intervUrl}/mecanique`);
+  }
+  volcTotal(): Observable<any> {
+    return this.httpClient.get<any>(`${this.intervUrl}/volcanisation`);
+  }
+
+  moteurTotal(): Observable<any> {
+    return this.httpClient.get<any>(`${this.intervUrl}/moteur`);
+  }
+
+  tolerieTotal(): Observable<any> {
+    return this.httpClient.get<any>(`${this.intervUrl}/tolerie`);
+  }
+
+  prevTotal(): Observable<any> {
+    return this.httpClient.get<any>(`${this.intervUrl}/preventive`);
+  }
 }

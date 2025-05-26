@@ -22,6 +22,7 @@ import { InterventionComponent } from './intervention/intervention/intervention.
 import { VidangeComponent } from './vidange/vidange/vidange.component';
 import { EtatVidangeComponent } from './etat/etat-vidange/etat-vidange.component';
 import { StatComponent } from './stat/stat.component';
+import { ConsulterComponent } from './intervention/consulter/consulter.component';
 
 export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { roles: 'chef de direction technique' } },
@@ -33,16 +34,16 @@ export const routes: Routes = [
   { path: 'diagnostic', component: DiagnosticComponent, canActivate: [authGuard], data: { roles: 'chef service maintenance' } },
   { path: 'ordre', component: OrdreComponent, canActivate: [authGuard], data: { roles: 'chef service maintenance' } },
   { path: 'intervention', component: InterventionComponent, canActivate: [authGuard], data: { roles: 'Responsable maintenance' } },
+  //{ path: 'consulter/:id_ordre', component: ConsulterComponent, canActivate: [authGuard], data: { roles: ['Responsable maintenance'] } },
+  { path: 'consulter/:id_ordre', component: ConsulterComponent },
   { path: 'ordres', component: OrdersComponent, canActivate: [authGuard], data: { roles: 'Responsable maintenance' } },
   { path: 'demande', component: DemandeComponent, canActivate: [authGuard], data: { roles: 'chef d’agence' } },
   { path: 'vidange', component: VidangeComponent, canActivate: [authGuard], data: { roles: ['Chef service maîtrise de l\'énergie'] } },
   { path: 'etat', component: EtatVidangeComponent, canActivate: [authGuard], data: { roles: ['Chef service maîtrise de l\'énergie'] } },
   { path: 'stat', component: StatComponent, canActivate: [authGuard], data: { roles: ['Chef service maîtrise de l\'énergie'] } },
-
   { path: 'consomation', component: ConsomationComponent, canActivate: [authGuard], data: { roles: ['Agent de saisie maîtrise de l\'énergie'] } },
   { path: 'kilometrage', component: KilometrageComponent, canActivate: [authGuard], data: { roles: ['Agent de saisie maîtrise de l\'énergie'] } },
   { path: 'login-admin', component: LoginAdminComponent, canActivate: [authGuard], data: { roles: [''] } },
-  
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '', redirectTo: 'login-admin', pathMatch: 'full' },
@@ -50,7 +51,7 @@ export const routes: Routes = [
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'login-admin', component: LoginAdminComponent },
   { path: 'dashboardAdmin', component: DashboardAdminComponent },
-  { path: '**', redirectTo: 'login'},
+  { path: '**', redirectTo: 'login' },
 
 ];
 

@@ -118,7 +118,6 @@ export class AtelierComponent implements OnInit {
 
   }
 
-
   openDialog() {
     const dialogRef = this.dialog.open(AddAtelierComponent, {
       width: '400px',

@@ -11,7 +11,7 @@
 /*Navbar ouvert */
 .main-container.collapsed {
   transition: margin-left 0.3 ease-in-out;
-  width:90%;
+  width: 100%;
   margin-left: 250px;
   margin-right: -150px;
 

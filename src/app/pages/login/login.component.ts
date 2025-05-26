@@ -1,15 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from "@angular/common";
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, signal } from "@angular/core";
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { NgxUiLoaderModule, NgxUiLoaderService } from "ngx-ui-loader";
+import { AuthService } from "src/app/services/auth.service";
+import { TokenService } from "src/app/services/token.service";
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
-import { NgxUiLoaderModule, NgxUiLoaderService } from 'ngx-ui-loader';
-import { AuthService } from 'src/app/services/auth.service';
-import { TokenService } from 'src/app/services/token.service';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: 'app-login',
@@ -18,8 +17,11 @@ import { TokenService } from 'src/app/services/token.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatIconModule, 
     NgxUiLoaderModule,
-    MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 
   templateUrl: './login.component.html',
@@ -113,9 +115,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (userRole === 'Responsable maintenance') {
             this.router.navigate(['/orders']);
             this.router.navigate(['/intervention']);
+            // this.router.navigate(['/consulter']);
+
           } else if (userRole === 'chef d’agence') {
             this.router.navigate(['/demande']);
-
           }
 
           else if (userRole === 'Chef service maîtrise de l\'énergie') {
@@ -151,6 +154,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
 }
+
+
+
+
+
+
+
+
 
 
 

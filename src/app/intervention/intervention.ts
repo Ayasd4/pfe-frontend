@@ -14,6 +14,7 @@ export interface Intervention {
         }
         nom_travail: string,
         urgence_panne: string,
+        //travaux: {id_travaux: 0,nom_travail: '', type_atelier: ''},
         planning: string,
         date_ordre: string,
         status: string,

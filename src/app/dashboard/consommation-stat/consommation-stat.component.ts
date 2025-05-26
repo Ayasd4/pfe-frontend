@@ -83,6 +83,7 @@ export class ConsommationStatComponent implements OnInit{
       }
     });
   }
+  
   fetchConsomation() {
     /*if (!this.numparc) {
       alert('Veuillez entrer un numéro de parc');

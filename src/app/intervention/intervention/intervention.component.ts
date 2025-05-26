@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Intervention } from '../intervention';
 import { InterventionService } from '../intervention.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -55,7 +55,8 @@ export class InterventionComponent implements OnInit {
     private snackBar: MatSnackBar,
     private ordreService: OrdreService,
     private technicienService: TechnicienService,
-    private consulterService: ConsulterService
+    private consulterService: ConsulterService,
+    private cd: ChangeDetectorRef,
 
   ) { }
 
@@ -155,7 +156,9 @@ export class InterventionComponent implements OnInit {
       //const visibleInterventions = data.filter(intervention => !hiddenIds.includes(intervention.id_intervention));
 
       this.interventions = data;
+      this.dataSource.data = this.interventions;
       this.dataSource = new MatTableDataSource<Intervention>(this.interventions);
+      this.cd.detectChanges();
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -276,7 +279,7 @@ export class InterventionComponent implements OnInit {
     });
   }
 
-  
+
 
 
   editIntervention(intervention: Intervention) {
@@ -292,7 +295,10 @@ export class InterventionComponent implements OnInit {
           () => {
             console.log("Intervention updated!", result);
             this.snackBar.open("Intervention updated successfully", 'close', { duration: 6000 });
-            window.location.reload(); // Rafraîchir après mise à jour
+                        this.ngOnInit();
+
+           // this.loadIntervention();
+            //window.location.reload();
           }, (error) => {
             console.error('Error while updating Intervention', error);
           }

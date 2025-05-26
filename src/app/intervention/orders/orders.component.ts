@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -29,6 +29,7 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { InterventionComponent } from '../intervention/intervention.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ConsulterComponent } from '../consulter/consulter.component';
+import { ConsulterService } from '../consulter/consulter.service';
 
 @Component({
   selector: 'app-orders',
@@ -66,7 +67,9 @@ export class OrdersComponent implements AfterViewInit {
     private snackBar: MatSnackBar,
     private diagnosticService: DiagnosticService,
     private technicienService: TechnicienService,
-    private atelierService: AtelierService
+    private atelierService: AtelierService,
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) { }
 
   @ViewChild(MatSort) sort: any;
@@ -151,12 +154,8 @@ export class OrdersComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.ordreService.fetchAllOrders().subscribe((data) => {
       console.log('Données récupérées : ', data);
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
 
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      const visibleOrdres = data.filter(ordre => !hiddenIds.includes(ordre.id_ordre));
-
-      this.ordres = visibleOrdres;
+      this.ordres = data;
       this.dataSource = new MatTableDataSource<Ordre>(this.ordres);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -183,7 +182,6 @@ export class OrdersComponent implements AfterViewInit {
     this.loadAtelier();
     this.loadTravaux();
   }
-
 
   loadDiagnostic(): void {
     this.diagnosticService.fetchAllDiagnostic().subscribe(
@@ -275,26 +273,19 @@ export class OrdersComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  //@ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
 
-
-  /*consultOrder(ordre: Ordre) {
-    //this.menuTrigger.closeMenu();
-     this.dialog.open(ConsulterComponent, {
-      width: '800px',
-      height: '700px',
-      data: { ordre }, // on passe l'ordre sélectionné
-      //autoFocus: true
-    });
+  /*consulterOrder(ordre: any) {
+    this.router.navigate(['/consulter', ordre.id_ordre]);
   }*/
 
-  consulterOrder(id_ordre: Number) {
+  consulterOrder(ordre: any) {//id_ordre: number
     const dialogRef = this.dialog.open(ConsulterComponent, {
-      width: '600px',
+      width: '6000px',
       height: '600px',
-      data: { id_ordre }, //passer les données de demande
-    });
+      data: { ...ordre },
 
+    });
+    this.cd.detectChanges();
 
   }
 
@@ -312,7 +303,7 @@ export class OrdersComponent implements AfterViewInit {
             this.snackBar.open("Status of Order updated successfully!", "close", { duration: 6000 });
             window.location.reload();
           }, (error) => {
-            console.error("Error while Order status of demande", error);
+            console.error("Error while updating Order status of order", error);
           }
         );
       }
@@ -324,7 +315,6 @@ export class OrdersComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(AddInterventionComponent, {
       width: '600px',
       height: '600px',
-      //data: { id_ordre: ordre.id_ordre}
       data: { ...ordre }
 
     });
@@ -335,8 +325,10 @@ export class OrdersComponent implements AfterViewInit {
           //this.ngxService.stop();
           console.log("Intervention added successfully!");
           this.snackBar.open("Intervention added successfully!", "Close", { duration: 5000 });
+          this.cd.detectChanges();
+
           //this.router.navigate(['/intervention']);
-          //window.location.reload();
+        window.location.reload();
         },
           (error) => {
             console.log(error);

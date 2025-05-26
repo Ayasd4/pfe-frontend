@@ -40,7 +40,7 @@ export class InterventionService {
 
   }
 
-  getAtelierByNom(nom_atelier: Number) {
+  getAtelierByNom(nom_atelier: string) {
     return this.httpClient.get<any>(`${this.baseUrl}/atelier/${nom_atelier}`);
 
   }

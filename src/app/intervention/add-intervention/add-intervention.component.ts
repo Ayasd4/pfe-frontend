@@ -118,6 +118,7 @@ export class AddInterventionComponent implements OnInit {
   technicienList: any;
   travauxList: any;
   atelierList: any;
+  interventions: any;
 
   constructor(private interventionService: InterventionService,
     public dialogRef: MatDialogRef<AddInterventionComponent>,
@@ -220,7 +221,7 @@ export class AddInterventionComponent implements OnInit {
           console.log('Order data retrieved:', data);
 
           if (data) {
-            //this.intervention.ordre.travaux = data.travaux;
+            //this.intervention.ordre.nom_travail = data.nom_travail;
             this.intervention.ordre.urgence_panne = data.urgence_panne;
             this.intervention.ordre.planning = data.planning;
             this.intervention.ordre.date_ordre = data.date_ordre;
@@ -262,7 +263,7 @@ export class AddInterventionComponent implements OnInit {
   }
 
   getAtelierInfo() {
-    const nom_atelier = Number(this.intervention.atelier.nom_atelier);
+    const nom_atelier = this.intervention.atelier.nom_atelier;
     console.log("Workshop sent to the backend:", nom_atelier); // Vérification
 
     if (nom_atelier) {
@@ -272,7 +273,7 @@ export class AddInterventionComponent implements OnInit {
 
           if (data) {
 
-            this.intervention.atelier.nom_atelier = data.nom_atelier;
+            //this.intervention.atelier.nom_atelier = data.nom_atelier;
             this.intervention.atelier.telephone = data.telephone;
             this.intervention.atelier.email = data.email;
             this.cd.markForCheck(); // pour que l'UI se mette à jour avec OnPush
@@ -285,7 +286,6 @@ export class AddInterventionComponent implements OnInit {
       });
     }
   }
-
 
   getOrdreById() {
 
@@ -328,7 +328,7 @@ export class AddInterventionComponent implements OnInit {
             this.intervention.ordre.urgence_panne = data.urgence_panne;
             this.intervention.ordre.planning = data.planning;
             this.intervention.ordre.date_ordre = data.date_ordre;
-            //this.cd.markForCheck(); // pour que l'UI se mette à jour avec OnPush
+            this.cd.markForCheck(); // pour que l'UI se mette à jour avec OnPush
 
           }
         },
@@ -372,12 +372,6 @@ export class AddInterventionComponent implements OnInit {
     this.getAtelier();
     this.getTravaux();
 
-    // Vérification avant d'appeler getOrdreById()
-    /*if (this.intervention.ordre && this.intervention.ordre.id_ordre) {
-      this.getOrdreById();
-    } else {
-      console.warn("No Order ID provided, skipping getOrdreById()");
-    }*/
   }
 
   //lorsqu'un utilisateur clique sur un bouton "Annuler" dans une boîte de dialogue pour la fermer sans valider une action.
@@ -426,11 +420,16 @@ export class AddInterventionComponent implements OnInit {
           this.ngxService.stop();
           console.log('Intervention updated successfully!');
           this.snackBar.open('Intervention updated successfully!', 'Close', { duration: 6000 });
-          this.dialogRef.close(this.intervention);
-          window.location.reload();
+          this.dialogRef.close(true);
+          //this.interventions.push(interventionToSend);
+          //window.location.reload();
+                        this.ngOnInit();
 
         }, (error) => {
+          this.ngxService.stop();
           console.error('Error while updating Order: ', error);
+          this.snackBar.open('Error while updating Order!', 'Close', { duration: 6000 });
+
         }
       );
     } else {
@@ -445,13 +444,11 @@ export class AddInterventionComponent implements OnInit {
 
             console.log("Intervention created successfully:", response);
             this.snackBar.open('Intervention created successfully!', 'Close', { duration: 5000 });
-
           }
-          window.location.reload();
-          this.dialogRef.close();
-          //this.router.navigate(['/intervention']);
+          this.dialogRef.close(true);
         },
         error: (error) => {
+          this.ngxService.stop();
           console.error("Error while creating Intervention :", error);
           this.snackBar.open('Error while creating Intervention!', 'Close', { duration: 5000 });
         }

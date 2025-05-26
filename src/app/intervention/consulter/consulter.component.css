@@ -1,0 +1,275 @@
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+}
+
+.card-body {
+  padding: 1rem 1.25rem;
+}
+
+legend {
+  font-size: 1.1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  width: fit-content;
+  margin-bottom: 0.75rem;
+}
+
+ul.list-unstyled {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul.list-unstyled li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.fw-bold, .fw-semibold {
+  font-weight: 600 !important;
+}
+
+h2.fw-bold {
+  font-size: 1.8rem;
+  color: #2c3e50;
+}
+
+.badge.bg-danger {
+  font-size: 0.85rem;
+  padding: 0.4em 0.6em;
+}
+
+@media (max-width: 768px) {
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.btn {
+  background-color: #007bff; /* bleu bootstrap */
+  color: white;
+   margin-right: -100px;
+  margin-left: 840px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3; /* bleu plus foncé au survol */
+  transform: scale(1.05);     /* léger zoom */
+}
+
+.btn:active {
+  transform: scale(0.98);     /* effet pression */
+}
+
+.header-container {
+  position: relative;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 1rem 2rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #d32f2f; /* rouge au survol */
+  transform: scale(1.2);
+}
+
+
+table {
+  padding-top: 10px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white; 
+  padding: 15px 20px;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur du bouton (en haut) */
+.buton-container {
+  display: flex;
+  justify-content: flex-end;
+  
+  margin-bottom: 10px;
+}
+
+/* Style du bouton "Ajouter" */
+.buton-container button {
+  background-color: #000; /*007bff*/
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-right: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.buton-container button:hover {
+  background-color: #0a0505;/*0056b3*/
+}
+
+/* Conteneur du titre et de la recherche */
+
+/* Style du titre */
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  padding-top: 10px; /* Ajoute un espace interne sans affecter la position globale */
+}
+
+mat-form-field {
+  width: 250px !important;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white; 
+  padding: 15px 20px;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur du bouton (en haut) */
+.buton-container {
+  display: flex;
+  justify-content: flex-end;
+  
+  margin-bottom: 10px;
+}
+
+/* Style du bouton "Ajouter" */
+.buton-container button {
+  background-color: #000; /*007bff*/
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-right: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.buton-container button:hover {
+  background-color: #2c2a2a;/*0056b3*/
+}
+
+/* Conteneur du titre et de la recherche */
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Style du titre */
+/*.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  padding-top: 10px;
+}*/
+
+/* Style de la recherche */
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+mat-form-field {
+  width: 250px !important;
+}
+
+.boutton button {
+  flex: 1;
+ 
+  min-width: 8px;
+  font-weight: 450;
+  font-size: 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  color: white;
+}
+
+/* Hover pour le bouton 'delete' */
+.boutton button[color="black"]{
+  background-color: #000;
+  color: white;
+}
+/* Hover pour le bouton 'edit' */
+.boutton button[color="primary"]:hover {
+  background-color: #1976d2; /* plus foncé */
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.4);
+}
+
+/* Hover pour le bouton 'delete' */
+.boutton button[color="black"]:hover {
+  background-color: #494343;
+  box-shadow: 0 2px 6px rgba(48, 36, 36, 0.4);
+}
+
+
+.urgence_panne-critique {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.status-planifier{
+    color: blue;
+    font-weight: bold;
+}
+
+.status-terminer{
+    color: #4caf50;
+    font-weight: bold;
+}
+
+.status-annuler{
+    color: rgb(250, 57, 23);
+    font-weight: bold;
+}
+
+.status-en-cours{
+   color: #ebe83d;
+    font-weight: bold;
+}
+
