@@ -123,7 +123,8 @@ export class TechnicienComponent implements OnInit {
         this.technicienService.createTechnicien(result).subscribe(
           () => {
             console.log("Technician added successfully!");
-            this.snackBar.open("Technician added successfully!", "Close", { duration: 5000 });
+            this.snackBar.open("Technician added successfully!", "Close", { duration: 9000 });
+            this.loadTechniciens();
           },
           (error) => {
             console.log(error);
@@ -155,12 +156,12 @@ export class TechnicienComponent implements OnInit {
 
         this.technicienService.updateTechnicien(this.technicien.id_technicien, formData).subscribe(() => {
           console.log("Technician updated successfully!");
-          this.snackBar.open("Technician updated successfully!", "Close", { duration: 5000 });
-          window.location.reload();
+          this.snackBar.open("Technician updated successfully!", "Close", { duration: 9000 });
+          this.loadTechniciens();
         },
           (error) => {
             console.log("Error while updated Technician :", error);
-            window.location.reload();
+            this.loadTechniciens();
           });
       }
     })
@@ -171,8 +172,8 @@ export class TechnicienComponent implements OnInit {
     if (isConfirmed) {
       this.technicienService.deleteTechnicien(id_technicien).subscribe(() => {
         this.techniciens = this.techniciens.filter(item => item.id_technicien !== id_technicien);
-        this.snackBar.open(' Technician successfully!', 'Close', { duration: 6000 });
-        window.location.reload();
+        this.snackBar.open(' Technician successfully!', 'Close', { duration: 9000 });
+        this.loadTechniciens();
       }, (error) => {
         console.error("Error while deleting Technician:", error);
       }

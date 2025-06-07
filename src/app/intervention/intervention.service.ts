@@ -17,12 +17,16 @@ export class InterventionService {
     return this.httpClient.get<Intervention[]>(`${this.baseUrl}`);
   }
 
-  createIntervention(data: Intervention) {
-    return this.httpClient.post<Intervention>(`${this.baseUrl}`, data);
+  createIntervention(intervention: Intervention): Observable<any> {
+    return this.httpClient.post<Intervention>(`${this.baseUrl}`, intervention);
   }
 
-  updateIntervention(data: Intervention) {
+  /*updateIntervention(data: Intervention) {
     return this.httpClient.put<Intervention>(`${this.baseUrl}/${data.id_intervention}`, data);
+  }*/
+
+  updateIntervention(id_intervention: number, intervention: Intervention): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/${id_intervention}`, intervention);
   }
 
   deleteIntervention(id_intervention: Number) {
@@ -69,7 +73,7 @@ export class InterventionService {
     return this.httpClient.get(`${this.ApiUrl}/atelier`);
   }
 
-  
+
 
   // Recherche des demandes avec des paramètres filtrés
   searchIntervention(params: any): Observable<Intervention[]> {

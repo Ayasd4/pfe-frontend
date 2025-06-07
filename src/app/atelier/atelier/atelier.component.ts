@@ -39,7 +39,7 @@ import { AddAtelierComponent } from '../add-atelier/add-atelier.component';
     MatTooltipModule,
     MatCardModule,
     MatListModule,
-    
+
   ],
 })
 export class AtelierComponent implements OnInit {
@@ -92,7 +92,7 @@ export class AtelierComponent implements OnInit {
         ...ateliers,
       }));
       this.dataSource.data = this.ateliers; */
-  
+
 
   loadAteliers(): void {
     this.atelierService.fetchAllAtelier().subscribe((data) => {
@@ -101,7 +101,7 @@ export class AtelierComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Atelier>(data);
       //this.dataSource.sort = this.sort;
       //this.dataSource.paginator = this.paginator;
-    
+
     }, (error) => {
       console.log('Error while retrieving Workshops: ', error);
     });
@@ -129,8 +129,8 @@ export class AtelierComponent implements OnInit {
           () => {
             //this.ngxService.stop();
             console.log("Workshop added successfully!");
-            this.snackBar.open("Workshop added successfully!", "Close", { duration: 5000 });
-            //window.location.reload();
+            this.snackBar.open("Workshop added successfully!", "Close", { duration: 9000 });
+            this.loadAteliers();
           },
           (error) => {
             console.log(error);
@@ -150,8 +150,8 @@ export class AtelierComponent implements OnInit {
         this.atelierService.updateAtelier(result).subscribe(() => {
           //this.ngxService.stop();
           console.log("Workshop updated successfully!");
-          this.snackBar.open("Workshop updated successfully!", "Close", { duration: 5000 });
-          //window.location.reload();
+          this.snackBar.open("Workshop updated successfully!", "Close", { duration: 9000 });
+          this.loadAteliers();
         },
           (error) => {
             console.log("Error while updated workshop :", error);
@@ -163,16 +163,16 @@ export class AtelierComponent implements OnInit {
 
   deleteAtelier(id_atelier: Number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
-     if (isConfirmed) {
-       this.atelierService.deleteAtelier(id_atelier).subscribe(() => {
-         this.ateliers = this.ateliers.filter(item => item.id_atelier !== id_atelier);
-         this.snackBar.open('Workshop deleted successfully!', 'Close', { duration: 6000 });
-         window.location.reload();
-       }, (error) => {
-         console.error("Error while deleting workshop:", error);
-       }
-       );
-     }
+    if (isConfirmed) {
+      this.atelierService.deleteAtelier(id_atelier).subscribe(() => {
+        this.ateliers = this.ateliers.filter(item => item.id_atelier !== id_atelier);
+        this.snackBar.open('Workshop deleted successfully!', 'Close', { duration: 9000 });
+        this.loadAteliers();
+      }, (error) => {
+        console.error("Error while deleting workshop:", error);
+      }
+      );
+    }
   }
 
 }

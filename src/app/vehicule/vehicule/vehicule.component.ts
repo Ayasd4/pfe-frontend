@@ -94,12 +94,13 @@ export class VehiculeComponent implements OnInit {
       if (result) {
         this.vehiculeService.createVehicule(result).subscribe(
           () => {
-            console.log('New Vehicle created successfully!');
-            window.location.reload(); // Recharger la liste après ajout
+            console.log('New Vehicle added successfully!');
+            this.snackBar.open('Vehicle added successfully!', 'Close', { duration: 9000 });
+            this.loadVehicules();
+            //window.location.reload(); // Recharger la liste après ajout
           },
           (error) => {
             console.log(error);
-            window.location.reload();
           }
         );
       }
@@ -117,8 +118,8 @@ export class VehiculeComponent implements OnInit {
         this.vehiculeService.updateVehicule(result).subscribe(
           () => {
             console.log("Vehicle updated!");
-            this.snackBar.open('Vehicle updated successfully!', 'Close', { duration: 6000 });
-            window.location.reload(); // Rafraîchir après mise à jour
+            this.snackBar.open('Vehicle updated successfully!', 'Close', { duration: 9000 });
+            this.loadVehicules();
           },
           (error) => {
             console.error("Error while updated vehicle :", error);
@@ -142,8 +143,8 @@ export class VehiculeComponent implements OnInit {
     if (isConfirmed) {
       this.vehiculeService.deleteVehicule(idvehicule).subscribe((data) => {
         this.vehicules = this.vehicules.filter(item => item.idvehicule !== idvehicule);
-        this.snackBar.open('Vehicle updated successfully!', 'Close', { duration: 6000 });
-        window.location.reload();
+        this.snackBar.open('Vehicle updated successfully!', 'Close', { duration: 9000 });
+        this.loadVehicules();
       }, (error) => {
         console.error("Error while deleted vehicle :", error);
       }

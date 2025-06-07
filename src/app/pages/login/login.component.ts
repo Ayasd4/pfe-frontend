@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           localStorage.setItem('token', response.token);
           localStorage.setItem('user', JSON.stringify(response.user));
 
-          console.log("Utilisateur stocké dans localStorage:", localStorage.getItem('user')); // 🛠️ Vérifier le stockage
+          console.log("Utilisateur stocké dans localStorage:", localStorage.getItem('user')); 
           console.log("Token stocké dans localStorage:", localStorage.getItem('token'));
 
           this.authService.setLoggedIn(true);
@@ -103,19 +103,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           if (userRole === 'chef de direction technique') {
             this.router.navigate(['/dashboard']);
-            this.router.navigate(['/vehicule']);
-            this.router.navigate(['/chauffeur']);
-            this.router.navigate(['/atelier']);
+            //this.router.navigate(['/vehicule']);
+            //this.router.navigate(['/chauffeur']);
+            //this.router.navigate(['/atelier']);
 
 
           } else if (userRole === 'chef service maintenance') {
             this.router.navigate(['/maintenance']);
-            this.router.navigate(['/diagnostic']);
+            //this.router.navigate(['/diagnostic']);
 
           } else if (userRole === 'Responsable maintenance') {
-            this.router.navigate(['/orders']);
-            this.router.navigate(['/intervention']);
-            // this.router.navigate(['/consulter']);
+            this.router.navigate(['/ordres']);
+           // this.router.navigate(['/intervention']);
 
           } else if (userRole === 'chef d’agence') {
             this.router.navigate(['/demande']);
@@ -123,21 +122,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           else if (userRole === 'Chef service maîtrise de l\'énergie') {
             this.router.navigate(['/etat']);
-            this.router.navigate(['/vidange']);
+            //this.router.navigate(['/vidange']);
 
-            this.router.navigate(['/stat']);
+           // this.router.navigate(['/stat']);
           }
 
           else if (userRole === 'Agent de saisie maîtrise de l\'énergie') {
             this.router.navigate(['/consomation']);
-            this.router.navigate(['/kilometrage']);
+            //this.router.navigate(['/kilometrage']);
 
           }
-          /*else if (userRole === '') {
-            this.router.navigate(['/forgot-password']);
-
-          }*/
-
 
         } else {
           this.errorMessage = 'Invalid credentials';

@@ -103,6 +103,7 @@ export class AddChauffeurComponent implements OnInit {
 
     if (this.chauffeur.id_chauf) {
       this.chauffeurService.updateChauffeur(this.chauffeur.id_chauf, formData).subscribe(() => {
+        this.snackBar.open('Driver updated successfully!', 'close', { duration: 9000 });
         this.dialogRef.close(this.chauffeur);
       }, error => {
         console.error('Error while updating Driver:', error);
@@ -117,11 +118,12 @@ export class AddChauffeurComponent implements OnInit {
 
         if (error?.error?.message === 'This Driver already exists.') {
           this.snackBar.open('This driver already exists.', 'Close', { duration: 9000 });
+
         } else {
           this.snackBar.open('An error occurred while adding the driver.', 'Close', { duration: 9000 });
         }
       }
-    );
+      );
     }
   }
 

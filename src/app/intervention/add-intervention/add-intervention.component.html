@@ -155,7 +155,7 @@
 
                     <div>
                         <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button color="primary" (click)="saveIntervention(interventionForm)">Save</button>
+                        <button mat-button color="primary" [disabled]="isSubmitting" (click)="saveIntervention(interventionForm)">Save</button>
                     </div>
                 </mat-step>
 

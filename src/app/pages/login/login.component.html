@@ -26,7 +26,7 @@
             <button type="button" mat-icon-button matSuffix (click)="clickEvent($event)"
               [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
               <!--<mat-icon>{{ hide() ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-              <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+              <i class="fas" [ngClass]="hide() ? 'fa-eye-slash' : 'fa-eye'"></i>
 
             </button>
             <mat-error *ngIf="password?.hasError('required')">Le mot de passe est requis.</mat-error>

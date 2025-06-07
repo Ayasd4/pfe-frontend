@@ -67,10 +67,13 @@ export class AddVehiculeComponent implements OnInit {
       // Mettre à jour un véhicule existant
       this.vehiculeService.updateVehicule(this.vehicule).subscribe(() => {
         console.log('Vehicle updated successfully!');
+        this.snackBar.open('Vehicle updated successfully!', 'Close', { duration: 9000 });
         this.dialogRef.close(this.vehicule);
       },
         (error: any) => {
           console.error('Error while updating vehicle:', error);
+          this.snackBar.open('Vehicle while updated vehicle!', 'Fermer', { duration: 9000 });
+
         }
       );
     } else {
@@ -83,6 +86,8 @@ export class AddVehiculeComponent implements OnInit {
         },
         (error: any) => {
           console.error('Erreur lors de la création :', error);
+          this.snackBar.open('Vehicle while added vehicle!', 'Fermer', { duration: 9000 });
+          //this.dialogRef.close(this.vehicule);
 
           if (error.status === 400 && error.error.message === 'This vehicle already exists.') {
             this.snackBar.open('This vehicle already exists!', 'Close', { duration: 9000 });

@@ -8,15 +8,16 @@
     transition: all .5s ease;
     background: #f4f7fa;
     padding: 3rem;
-    background-image: url('/assets/1573745171.jpg');
+    
+}
+/*background-image: url('/assets/1573745171.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh;
     margin: 0;
-    font-family: 'Arial', sans-serif;
-}
-
+    font-family: 'Arial', sans-serif;*/
+    
 .home-trimmed {
     width: calc(100% - 16.5625rem);
     margin-left: 16.5625;

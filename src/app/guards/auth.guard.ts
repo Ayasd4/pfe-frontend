@@ -5,21 +5,21 @@ import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
+  // Autoriser l'accès direct à certaines routes sans authentification
+  /*if (state.url.includes('/forgot-password') || state.url.includes('/login-admin')) {
+    return true;
+  }*/
+
   const authService = inject(AuthService);
   const router = inject(Router);
 
-   // Autoriser l'accès direct à certaines routes sans authentification
-  if (state.url === '/forgot-password' || state.url === '/login-admin') {
+   const publicRoutes = ['/forgot-password', '/login-admin', '/login'];
+
+  // Autoriser l'accès direct aux routes publiques
+  if (publicRoutes.includes(state.url)) {
     return true;
   }
 
-  /*if(authService.isLoggedIn()){
-   return true;
- 
-  }else{
-   router.navigate(['login']);
-   return false;
-  }*/
 
   const user = authService.getUser(); // récupérer l'utilisateur connecté
   console.log('Utilisateur connecté:', user);
@@ -32,7 +32,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (!authService.isLoggedIn() || !user || !user.roles) {// || !user.role
     router.navigate(['/login']); // Rediriger si l'utilisateur n'est pas connecté
     return false;
-  } 
+  }
 
   // Vérifier si la route a une restriction de rôle
   const requiredRoles: string[] = route.data?.['roles'];
@@ -40,13 +40,12 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   //if (requiredRoles && user.roles !== requiredRoles) {
   //if (requiredRoles && !requiredRoles.includes(user.roles)) {
- //if (requiredRoles && !requiredRoles.includes(user.roles)) {
- if (requiredRoles && !requiredRoles.includes(user.roles.trim())) {
+  //if (requiredRoles && !requiredRoles.includes(user.roles)) {
+  if (requiredRoles && !requiredRoles.includes(user.roles.trim())) {
 
     router.navigate(['/login']); // Rediriger si l'utilisateur n'a pas le bon rôle
     return false;
-  } 
-  
+  }
 
   return true;
 };

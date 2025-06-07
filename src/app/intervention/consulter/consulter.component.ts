@@ -277,12 +277,14 @@ export class ConsulterComponent implements OnInit {
     this.consultService.getInterventionByOrder(id_ordre).subscribe((data) => {
       console.log('Données récupérées : ', data);
 
-      this.interventions = data;
+      this.dataSource.data = data;
+
+      /*this.interventions = data;
       this.dataSource.data = this.interventions;
 
       this.cd.detectChanges();
 
-      this.dataSource = new MatTableDataSource<Intervention>(this.interventions);
+      this.dataSource = new MatTableDataSource<Intervention>(this.interventions);*/
 
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -318,12 +320,10 @@ export class ConsulterComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.interventionService.createIntervention(result).subscribe(() => {
-          //this.ngxService.stop();
           console.log("Intervention added successfully!");
           this.snackBar.open("Intervention added successfully!", "Close", { duration: 5000 });
-          //this.loadOrdreById(this.ordre.id_ordre);
-          //this.router.navigate(['/intervention']);
-          //window.location.reload();
+          this.loadInterventionById(this.ordre.id_ordre);
+
         },
           (error) => {
             console.log(error);
@@ -342,13 +342,11 @@ export class ConsulterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.interventionService.updateIntervention(this.intervention).subscribe(
+        this.interventionService.updateIntervention(intervention.id_intervention, result).subscribe(
           () => {
             console.log("Intervention updated!", result);
             this.snackBar.open("Intervention updated successfully", 'close', { duration: 6000 });
-            //this.loadInterventionById(this.ordre.id_ordre);
-            //window.location.reload();
-            this.ngOnInit();
+            this.loadInterventionById(this.ordre.id_ordre);
           }, (error) => {
             console.error('Error while updating Intervention', error);
           }

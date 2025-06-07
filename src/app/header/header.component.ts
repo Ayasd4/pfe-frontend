@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit {
     }*/
   }
 
-  ngOnInit(): void {
+  /*ngOnInit(): void {
     this.screenwidth = window.innerWidth;
     this.collapsed = true; //
 
@@ -102,7 +102,30 @@ export class HeaderComponent implements OnInit {
     //this.onToggleHeaderNav.emit({ collapsed: this.collapsed, screenwidth: this.screenwidth }); //
     this.isLoggedIn = !!localStorage.getItem('token');
 
+  }*/
+
+  ngOnInit(): void {
+    this.screenwidth = window.innerWidth;
+    this.collapsed = true; // Initialise l’état du menu à "réduit"
+
+    this.authService.isLoggedIn$.subscribe(status => { //interface réactive aux changements de connexion 
+      this.isLoggedIn = status; //permet de réagir automatiquement lorsqu’un utilisateur se connecte ou se déconnecte
+      if (status) {
+        const user = this.authService.getUser();
+        console.log('Utilisateur retourné par getUser():', user);
+
+        if (user && user.roles) {
+          this.role = user.roles; // Enregistre les rôles de l’utilisateur
+          this.navData = this.getUserNavData(); // Filtre dynamiquement les éléments de navigation
+        } else {
+          console.warn("Aucun rôle trouvé");
+        }
+      } else {
+        console.warn("Utilisateur non connecté");
+      }
+    });
   }
+
 
   getUserNavData() {
     const navItems: NavItem[] = [];
@@ -132,7 +155,7 @@ export class HeaderComponent implements OnInit {
           routeLink: 'stat',
           icon: 'fal fa-chart-bar',
           label: 'statistique'
-      },
+        },
         /*{
           routeLink: 'vidange',
           icon: 'fal fa-oil-can',
@@ -164,7 +187,7 @@ export class HeaderComponent implements OnInit {
 
     if (this.role.includes('chef service maintenance')) {
       return [
-        { routeLink: 'maintenance', icon: 'fal fa-tools', label: 'Maintenance' },
+        { routeLink: 'maintenance', icon: 'fal fa-tools', label: `demandes d'avarie` },
         { routeLink: 'diagnostic', icon: 'fal fa-clipboard-list-check ', label: 'diagnostic' },
         { routeLink: 'ordre', icon: 'fal fa-clipboard-list', label: 'ordre de travail' },
       ];
@@ -172,7 +195,7 @@ export class HeaderComponent implements OnInit {
 
     if (this.role.includes('Responsable maintenance')) {
       return [
-        { routeLink: 'ordres', icon: 'fal fa-clipboard-list', label: 'orders' },
+        { routeLink: 'ordres', icon: 'fal fa-clipboard-list', label: 'ordres' },
         { routeLink: 'intervention', icon: 'fal fa-hammer', label: 'intervention' },
       ];
     }
@@ -193,7 +216,7 @@ export class HeaderComponent implements OnInit {
           routeLink: 'stat',
           icon: 'fal fa-chart-bar',
           label: 'statistique'
-      },
+        },
         /*{
           routeLink: 'vidange',
           icon: 'fal fa-oil-can',// fa-tint

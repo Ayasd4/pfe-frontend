@@ -147,7 +147,7 @@ export class InterventionComponent implements OnInit {
   }
 
   loadIntervention(): void {
-    this.interventionService.fetchAllInterventions().subscribe((data) => {
+    this.interventionService.fetchAllInterventions().subscribe(data => {
       console.log('Données récupérées : ', data);
 
       //const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
@@ -158,7 +158,9 @@ export class InterventionComponent implements OnInit {
       this.interventions = data;
       this.dataSource.data = this.interventions;
       this.dataSource = new MatTableDataSource<Intervention>(this.interventions);
-      this.cd.detectChanges();
+
+      //this.dataSource.data = data; // met à jour automatiquement la table
+
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -257,7 +259,7 @@ export class InterventionComponent implements OnInit {
 
   }*/
 
-  openDialog(): void {
+  /*openDialog(): void {
     const dialogRef = this.dialog.open(AddInterventionComponent, {
       width: '600px',
       height: '600px',
@@ -269,18 +271,16 @@ export class InterventionComponent implements OnInit {
         this.interventionService.createIntervention(result).subscribe(
           () => {
             console.log('New Intervention created successfully!');
-            window.location.reload();
+            this.snackBar.open("intervention added successfully!", 'close', { duration: 6000 });
+            this.loadIntervention();
           },
           (error) => {
             console.log(error);
-            window.location.reload();
+            this.snackBar.open("Error while added intervention", 'close', { duration: 6000 });
           });
       }
     });
-  }
-
-
-
+  }*/
 
   editIntervention(intervention: Intervention) {
     const dialogRef = this.dialog.open(AddInterventionComponent, {
@@ -291,13 +291,11 @@ export class InterventionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.interventionService.updateIntervention(this.intervention).subscribe(
+        this.interventionService.updateIntervention(intervention.id_intervention, result).subscribe(
           () => {
             console.log("Intervention updated!", result);
             this.snackBar.open("Intervention updated successfully", 'close', { duration: 6000 });
-                        this.ngOnInit();
-
-           // this.loadIntervention();
+            this.loadIntervention();
             //window.location.reload();
           }, (error) => {
             console.error('Error while updating Intervention', error);
@@ -314,7 +312,9 @@ export class InterventionComponent implements OnInit {
       this.interventionService.deleteIntervention(id_intervention).subscribe(() => {
         this.interventions = this.interventions.filter(item => item.id_intervention !== id_intervention);
         this.snackBar.open('Intervention deleted successfully!', 'Close', { duration: 6000 });
-        window.location.reload();
+        //window.location.reload();
+        this.loadIntervention();
+
       }, (error) => {
         console.error("Error while deleting Intervention:", error);
 

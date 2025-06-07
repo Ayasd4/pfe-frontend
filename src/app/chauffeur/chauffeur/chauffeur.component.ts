@@ -100,11 +100,11 @@ export class ChauffeurComponent implements OnInit {
       if (result) {
         this.chauffeurService.createChauffeur(result).subscribe(() => {
           console.log('New Driver created successfully!');
-          window.location.reload();
+        this.loadChauffeurs();
         },
           (error) => {
             console.log(error);
-            window.location.reload();
+            this.loadChauffeurs();
           }
         );
       }
@@ -137,11 +137,13 @@ export class ChauffeurComponent implements OnInit {
         this.chauffeurService.updateChauffeur(this.chauffeur.id_chauf, formData).subscribe(
           () => {
             console.log('Driver updated successfully!');
-            window.location.reload();
+            //window.location.reload();
+            this.loadChauffeurs();
+
           },
           (error) => {
             console.error("Error while updated driver :", error);
-            window.location.reload();
+            this.loadChauffeurs();
           }
         );
       }
@@ -151,25 +153,25 @@ export class ChauffeurComponent implements OnInit {
   deleteChauffeur(id_chauf: Number) {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-       this.chauffeurService.deleteChauffeur(id_chauf).subscribe((data) => {
-          this.chauffeurs = this.chauffeurs.filter(item => item.id_chauf !== id_chauf);
-          this.snackBar.open('driver deleted successfully!', 'Close', { duration: 6000 });
-          window.location.reload();
-        }, (error) => {
-          console.error("Error while deleted driver :", error);
-        }
-        );
+      this.chauffeurService.deleteChauffeur(id_chauf).subscribe((data) => {
+        this.chauffeurs = this.chauffeurs.filter(item => item.id_chauf !== id_chauf);
+        this.snackBar.open('driver deleted successfully!', 'Close', { duration: 6000 });
+        this.loadChauffeurs();
+      }, (error) => {
+        console.error("Error while deleted driver :", error);
       }
+      );
     }
-
   }
 
+}
 
 
 
 
 
-  
+
+
 /* const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
       if (!hiddenIds.includes(id_chauf)) {
         hiddenIds.push(id_chauf);

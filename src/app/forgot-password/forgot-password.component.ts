@@ -27,7 +27,7 @@ export class ForgotPasswordComponent {
     private ngxService: NgxUiLoaderService,
   ) {
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]//, Validators.pattern(GlobalConstants.emailRegex)
+      email: ['', [Validators.required, Validators.email]] //, Validators.pattern(GlobalConstants.emailRegex)
     });
   }
 

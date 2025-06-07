@@ -77,7 +77,7 @@ export class InterventionStatComponent implements OnInit {
             type: 'column'
           },
           title: {
-            text: 'Répartition des interventions par atelier'
+            text: 'les interventions par atelier'
           },
           xAxis: {
             categories: categories,

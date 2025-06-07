@@ -390,7 +390,14 @@ export class AddInterventionComponent implements OnInit {
     return moment(time, 'HH:mm').format('HH:mm'); // Format to 'HH:mm'
   }
 
+  isSubmitting = false;
+
+
   saveIntervention(interventionForm: any) {
+    if (this.isSubmitting) return;
+
+    this.isSubmitting = true;
+
     if (interventionForm.invalid) {
       this.snackBar.open('All fields must be filled out!', 'Close', { duration: 6000 });
       return;
@@ -415,15 +422,12 @@ export class AddInterventionComponent implements OnInit {
     if (this.intervention.id_intervention) {
       console.log("Mode Update, ID =", this.intervention.id_intervention);
 
-      this.interventionService.updateIntervention(interventionToSend).subscribe(
+      this.interventionService.updateIntervention(this.intervention.id_intervention, interventionToSend).subscribe(
         () => {
           this.ngxService.stop();
           console.log('Intervention updated successfully!');
           this.snackBar.open('Intervention updated successfully!', 'Close', { duration: 6000 });
-          this.dialogRef.close(true);
-          //this.interventions.push(interventionToSend);
-          //window.location.reload();
-                        this.ngOnInit();
+          this.dialogRef.close(interventionToSend);
 
         }, (error) => {
           this.ngxService.stop();
@@ -445,7 +449,7 @@ export class AddInterventionComponent implements OnInit {
             console.log("Intervention created successfully:", response);
             this.snackBar.open('Intervention created successfully!', 'Close', { duration: 5000 });
           }
-          this.dialogRef.close(true);
+          this.dialogRef.close(interventionToSend);
         },
         error: (error) => {
           this.ngxService.stop();

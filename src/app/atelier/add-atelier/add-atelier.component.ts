@@ -84,7 +84,7 @@ export class AddAtelierComponent implements OnInit {
       this.atelierService.updateAtelier(this.atelier).subscribe(() => {
         console.log('Workshop updated successfully!');
         this.ngxService.stop();
-        window.location.reload();
+        //window.location.reload();
         this.dialogRef.close(this.atelier);
       },
         (error: any) => {
@@ -96,7 +96,7 @@ export class AddAtelierComponent implements OnInit {
         () => {
           this.snackBar.open('Workshop added successfully!', 'close', { duration: 9000 });
           this.ngxService.stop();
-          window.location.reload();
+          //window.location.reload();
           this.dialogRef.close(this.atelier);
         },
         (error: any) => {
