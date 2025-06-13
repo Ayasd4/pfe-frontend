@@ -149,7 +149,7 @@ export class InterventionComponent implements OnInit {
     this.interventionService.fetchAllInterventions().subscribe(data => {
       console.log('Données récupérées : ', data);
 
-      this.dataSource.data = this.interventions;
+      this.dataSource.data = data;
 
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
