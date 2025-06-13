@@ -46,7 +46,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>date of employment</mat-label>
                 <input matInput [matDatepicker]="picker" [(ngModel)]="technicien.date_embauche" name="date_embauche"
-                    required><!--(dateChange)="getValidDate(demande.date_demande)" -->
+                    required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

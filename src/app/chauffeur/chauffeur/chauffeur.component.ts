@@ -64,10 +64,7 @@ export class ChauffeurComponent implements OnInit {
 
   loadChauffeurs(): void {
     this.chauffeurService.fetchAllChauffeurs().subscribe((data) => {
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
 
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleChauffeurs = data.filter(chauffeur => !hiddenIds.includes(chauffeur.id_chauf));
 
       this.chauffeurs = data;
       this.dataSource = new MatTableDataSource<Chauffeur>(this.chauffeurs);
@@ -165,22 +162,3 @@ export class ChauffeurComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-/* const hiddenIds = JSON.parse(localStorage.getItem('hiddenChauffeurs') || '[]');
-      if (!hiddenIds.includes(id_chauf)) {
-        hiddenIds.push(id_chauf);
-        localStorage.setItem('hiddenChauffeurs', JSON.stringify(hiddenIds));
-
-        this.chauffeurs = this.chauffeurs.filter(item => item.id_chauf !== id_chauf);
-        this.dataSource.data = this.chauffeurs;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('driver deleted successfully!', 'Close', { duration: 6000 });
-      }
-    }*/

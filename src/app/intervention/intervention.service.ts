@@ -21,10 +21,6 @@ export class InterventionService {
     return this.httpClient.post<Intervention>(`${this.baseUrl}`, intervention);
   }
 
-  /*updateIntervention(data: Intervention) {
-    return this.httpClient.put<Intervention>(`${this.baseUrl}/${data.id_intervention}`, data);
-  }*/
-
   updateIntervention(id_intervention: number, intervention: Intervention): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/${id_intervention}`, intervention);
   }

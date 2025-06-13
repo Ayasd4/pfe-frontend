@@ -43,7 +43,6 @@ import { OrdreService } from 'src/app/ordre/ordre.service';
     MatNativeDateModule,
     MatStepperModule,
     MatSnackBarModule,
-    //MatTimepickerModule
 
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,7 +65,6 @@ export class AddInterventionComponent implements OnInit {
         },
       },
       nom_travail: '',
-      //travaux: { id_travaux: 0, nom_travail: '', type_atelier: '' },
       urgence_panne: '',
       planning: '',
       date_ordre: '',
@@ -131,9 +129,7 @@ export class AddInterventionComponent implements OnInit {
     private cd: ChangeDetectorRef,
 
   ) {
-    /*if (data?.id_ordre) {
-      this.intervention.ordre.id_ordre = data.id_ordre;
-    }*/
+
     //ordre
     this.intervention.ordre.nom_travail = data.nom_travail;
     this.intervention.ordre.urgence_panne = data.urgence_panne;
@@ -151,11 +147,6 @@ export class AddInterventionComponent implements OnInit {
     this.intervention.atelier.nom_atelier = data.nom_atelier;
     this.intervention.atelier.telephone = data.telephone;
     this.intervention.atelier.email = data.email;
-
-
-    //travaux
-    //this.intervention.ordre.travaux.nom_travail = data.nom_travail;
-    //this.intervention.ordre.travaux.type_atelier = data.type_atelier;
 
   }
 
@@ -210,7 +201,6 @@ export class AddInterventionComponent implements OnInit {
 
   //infos
   getOrdreInfo() {
-    //const nom_travail = this.intervention.ordre.travaux.nom_travail;
     const nom_travail = this.intervention.ordre.nom_travail;
 
     console.log("Order sent to the backend:", nom_travail); // Vérification
@@ -347,11 +337,6 @@ export class AddInterventionComponent implements OnInit {
       this.intervention.ordre = this.intervention.ordre || { nom_travail: '', urgence_panne: '', planning: '', date_ordre: '' };
       this.intervention.technicien = this.intervention.technicien || { nom: '', prenom: '', matricule_techn: this.matricule_techn, email_techn: '', specialite: '' };
       this.intervention.atelier = this.intervention.atelier || { nom_atelier: '', telephone: '', email: '' };
-
-      //this.intervention.ordre.travaux = this.intervention.ordre.travaux || { nom_travail: '', type_atelier: '' };
-
-      // Récupérer l'ordre et les informations du technicien uniquement en mode update
-      //      if (this.intervention.ordre?.id_ordre) {
 
       if (this.intervention.ordre?.nom_travail) {
         this.getOrdreInfo();  // Appel pour récupérer les informations de l'ordre

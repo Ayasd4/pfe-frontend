@@ -14,7 +14,6 @@
     </div>
 
     <div class="card-body">
-        <!-- Vérification que dataSource.data est un tableau -->
         <ul *ngIf="dataSource.data.length > 0" class="workshop-list">
             <li *ngFor="let technicien of dataSource.data" class="workshop-item">
                 <div class="workshop-details">
@@ -41,8 +40,7 @@
 
                 </div>
                 <div class="technicien-image">
-                    <!--<img *ngIf="Chauffeur.image" src="{{Chauffeur.image}}" alt="Driver photo"
-                        width="100" height="100">-->
+
                     <img *ngIf="technicien.image"
                         [src]="'http://localhost:3100/uploads/' + extractImageName(technicien.image)" alt="Technician photo"
                         width="250" height="200">

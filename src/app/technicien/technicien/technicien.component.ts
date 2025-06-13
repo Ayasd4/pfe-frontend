@@ -78,10 +78,6 @@ export class TechnicienComponent implements OnInit {
   loadTechniciens(): void {
     this.technicienService.fetchAllTechnicien().subscribe((data) => {
       console.log('Données récupérées : ', data);
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenTechniciens') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleTechniciens = data.filter(technicien => !hiddenIds.includes(technicien.id_technicien));
 
       this.techniciens = data;
       this.dataSource = new MatTableDataSource<Technicien>(data);
@@ -108,7 +104,6 @@ export class TechnicienComponent implements OnInit {
   }
 
   extractImageName(imagePath: string): string {
-    // Pour traiter les cas comme "uploads\\image.jpg" ou juste "image.jpg"
     return imagePath.split('\\').pop() || imagePath;
   }
 
@@ -184,19 +179,3 @@ export class TechnicienComponent implements OnInit {
   }
 
 }
-
-
-
-
-/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenTechniciens') || '[]');
-      if (!hiddenIds.includes(id_technicien)) {
-        hiddenIds.push(id_technicien);
-        localStorage.setItem('hiddenTechniciens', JSON.stringify(hiddenIds));
-
-        this.techniciens = this.techniciens.filter(item => item.id_technicien !== id_technicien);
-        this.dataSource.data = this.techniciens;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('Technician deleted successfully!', 'Close', { duration: 6000 });
-      }
-    }  */

@@ -115,14 +115,8 @@ export class DemandeComponent implements OnInit {
     this.demandeService.fetchAllDemandes().subscribe((data) => {
       console.log('Données récupérées : ', data);
 
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenDemandes') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleDemandes = data.filter(demande => !hiddenIds.includes(demande.id_demande));
-
       this.demandes = data;
-      //this.filteredDemandes = data;
-      this.dataSource = new MatTableDataSource<Demande>(this.demandes);//this.filteredDemandes
+      this.dataSource = new MatTableDataSource<Demande>(this.demandes);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -133,34 +127,6 @@ export class DemandeComponent implements OnInit {
     this.loadChauffeurs();
   }
 
-
-
-  /*  searchDemandes(input: any) {
-    input = input?.toString().trim().toLowerCase();
-  
-      this.filteredDemandes = this.demandes.filter(item => item.date_demande?.toLowerCase().includes(input)
-        || item.type_avarie?.toLowerCase().includes(input)
-        || item.description?.toLowerCase().includes(input)
-        || item.date_avarie?.toLowerCase().includes(input)
-        || item.heure_avarie?.toLowerCase().includes(input)
-        || item.statut?.toLowerCase().includes(input)
-        || (item.vehicule?.numparc && item.vehicule.numparc.toString().includes(input))
-        || (item.vehicule?.immatricule && item.vehicule.immatricule.toLowerCase().includes(input))
-        || (item.vehicule?.modele && item.vehicule.modele.toLowerCase().includes(input))
-        || (item.chauffeur?.nom && item.chauffeur.nom.toLowerCase().includes(input))
-        || (item.chauffeur?.prenom && item.chauffeur.prenom.toLowerCase().includes(input))
-        || (item.chauffeur?.matricule_chauf && item.chauffeur.matricule_chauf.toLowerCase().includes(input))
-        || (item.chauffeur?.cin && item.chauffeur.cin.toLowerCase().includes(input))
-        || (item.chauffeur?.telephone && item.chauffeur.telephone.toLowerCase().includes(input))
-        || (item.chauffeur?.email && item.chauffeur.email.toLowerCase().includes(input))
-      );
-  
-      this.dataSource = new MatTableDataSource<Demande>(this.filteredDemandes);
-    }
-
-  }*/
-
-  // Load all vehicles from the service
   loadDemandes(): void {
     this.demandeService.fetchAllDemandes().subscribe(
       (data) => {
@@ -174,7 +140,6 @@ export class DemandeComponent implements OnInit {
     );
   }
 
-  // Load all vehicles from the service
   loadVehicules(): void {
     this.vehiculeService.fetchAllVehicules().subscribe(
       (data) => {
@@ -220,13 +185,11 @@ export class DemandeComponent implements OnInit {
     );
   }
 
-  // Reset search form
   resetSearch(): void {
     this.searchParams = {};
     this.loadDemandes();
   }
 
-  // Apply quick filter to the table
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -248,7 +211,7 @@ export class DemandeComponent implements OnInit {
         this.demandeService.createDemande(result).subscribe(
           () => {
             console.log('new demand created successfully!');
-            window.location.reload();
+            this.loadRequest();
           },
           (error) => {
             console.log(error);
@@ -258,16 +221,6 @@ export class DemandeComponent implements OnInit {
     });
   }
 
-  /*getDemandes(): void {
-    this.demandeService.getDemande().subscribe(
-      (data: Demande[]) => {
-        this.demandes = data;
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des demandes', error);
-      }
-    );
-  }*/
 
   editDemande(demande: Demande) {
     const dialogRef = this.dialog.open(AddDemandeComponent, {
@@ -282,7 +235,7 @@ export class DemandeComponent implements OnInit {
           () => {
             console.log("request updated!", result);
             this.snackBar.open("request updated successfully", 'close', { duration: 9000 });
-            window.location.reload(); // Rafraîchir après mise à jour
+            this.loadRequest();
           }, (error) => {
             console.error('Error while updated request', error);
           }
@@ -297,7 +250,7 @@ export class DemandeComponent implements OnInit {
       this.demandeService.deleteDemande(id_demande).subscribe(() => {
         this.demandes = this.demandes.filter(item => item.id_demande !== id_demande);
         this.snackBar.open('Request deleted successfully!', 'Close', { duration: 6000 });
-        window.location.reload();
+        this.loadRequest();
       }, (error) => {
         console.error("Error while deleting Request:", error);
 
@@ -319,21 +272,3 @@ export class DemandeComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenDemandes') || '[]');
-      if (!hiddenIds.includes(id_demande)) {
-        hiddenIds.push(id_demande);
-        localStorage.setItem('hiddenDemandes', JSON.stringify(hiddenIds));
-
-        this.demandes = this.demandes.filter(item => item.id_demande !== id_demande);
-        this.dataSource.data = this.demandes;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('Request deleted successfully!', 'Close', { duration: 6000 });
-      }*/

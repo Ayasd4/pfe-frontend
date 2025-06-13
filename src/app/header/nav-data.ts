@@ -1,4 +1,4 @@
-export const navbarData= [
+export const navbarData = [
 
     {
         routeLink: 'dashboard',
@@ -8,10 +8,10 @@ export const navbarData= [
 
     {
         routeLink: 'vehicule',
-        icon: 'fal fa-bus', //fal fa-box-open/ 
+        icon: 'fal fa-bus',  
         label: 'vehicule'
     },
-    
+
     {
         routeLink: 'chauffeur',
         icon: 'fal fa-user-tie',
@@ -20,13 +20,13 @@ export const navbarData= [
 
     {
         routeLink: 'maintenance',
-        icon: 'fal fa-tools', //tools//fal fa-chart-bar: stat
+        icon: 'fal fa-tools',
         label: 'maintenance'
     },
 
     {
         routeLink: 'diagnostic',
-        icon: 'fal fa-clipboard-list-check', //-stethoscope
+        icon: 'fal fa-clipboard-list-check',
         label: 'diagnostic'
     },
 
@@ -51,11 +51,11 @@ export const navbarData= [
 
     {
         routeLink: 'atelier',
-        icon: 'fal fa-hard-hat', //tools//fal fa-chart-bar: stat
+        icon: 'fal fa-hard-hat', 
         label: 'atelier'
     },
-    
-    //fa-hard-hat ⛑️ 
+
+
     {
         routeLink: 'technicien',
         icon: 'fal fa-user-hard-hat',
@@ -64,7 +64,7 @@ export const navbarData= [
 
     {
         routeLink: 'demande',
-        icon: 'fal fa-file-alt', // fal fa-file-alt //fal fa-exclamation-triangle
+        icon: 'fal fa-file-alt', 
         label: 'demande d’avarie'
     },
 
@@ -80,22 +80,22 @@ export const navbarData= [
         label: 'statistique'
     },
 
-   /* {
-        routeLink: 'vidange',
-        icon: 'fal fa-oil-can',
-        label: 'vidange'
-    },*/
-
     {
         routeLink: 'consomation',
-        icon: 'fal fa-gas-pump', //fal fa-oil-can //fal fa-tags
+        icon: 'fal fa-gas-pump', 
         label: 'consomation'
     },
- 
+
     {
         routeLink: 'kilometrage',
-        icon: 'fal fa-tachometer-alt', //fal fa-road//fal fa-cog:parametre
+        icon: 'fal fa-tachometer-alt', 
         label: 'kilometrage'
+    },
+
+    {
+        routeLink: 'dashboard-admin',
+        icon: 'fal fa-user',
+        label: 'utilisateur'
     }
 
 ];

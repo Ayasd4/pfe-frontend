@@ -23,7 +23,7 @@
                     <mat-form-field>
                         <mat-label>End Date of intervention</mat-label>
                         <input matInput matInput [matDatepicker]="picker2" [(ngModel)]="intervention.date_fin"
-                            name="date_fin"><!--required-->
+                            name="date_fin">
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                         <mat-datepicker #picker2></mat-datepicker>
                     </mat-form-field>
@@ -31,13 +31,13 @@
                     <mat-form-field>
                         <mat-label>End Hour of intervention</mat-label>
                         <input type="time" matInput [(ngModel)]="intervention.heure_fin"
-                            name="heure_fin"><!--required-->
+                            name="heure_fin">
                     </mat-form-field>
 
                     <mat-form-field>
                         <mat-label>status</mat-label>
                         <mat-select matInput [(ngModel)]="intervention.status_intervention" name="status_intervention"
-                            required><!-- [(value)]="selected"-->
+                            required>
                             <mat-option *ngFor="let statut of statutsDisponibles"
                                 [value]="statut">{{statut}}</mat-option>
                         </mat-select>

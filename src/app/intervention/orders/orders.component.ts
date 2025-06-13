@@ -274,10 +274,6 @@ export class OrdersComponent implements AfterViewInit {
     }
   }
 
-  /*consulterOrder(ordre: any) {
-    this.router.navigate(['/consulter', ordre.id_ordre]);
-  }*/
-
   consulterOrder(ordre: any) {//id_ordre: number
     const dialogRef = this.dialog.open(ConsulterComponent, {
       width: '6000px',
@@ -327,7 +323,6 @@ export class OrdersComponent implements AfterViewInit {
           this.snackBar.open("Intervention added successfully!", "Close", { duration: 5000 });
           this.cd.detectChanges();
 
-          //this.router.navigate(['/intervention']);
         window.location.reload();
         },
           (error) => {

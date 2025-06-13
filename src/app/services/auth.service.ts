@@ -28,27 +28,6 @@ export class AuthService {
     }
   }
 
-  //mon code login
-  /*login(email: string, password: string): Observable<any> {
-    return this.httpClient.post<AuthResponse>(`${this.baseUrl}/login`, { email, password }).pipe(
-      
-      tap((response) => {
-        if (response && response.token && response.user) {
-          
-
-          console.log('User conected:', response.user); // Vérifiez ici si le rôle est présent dans l'objet `user`
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));          
-          this.isLoggedInSubject.next(true); // Met à jour l'état
-          window.location.reload();
-        } else {
-          throw new Error("Invalid response from server");
-        }
-      })
-    );
-
-  }*/
-
   login(email: string, password: string): Observable<any> {
     return this.httpClient.post<AuthResponse>(`${this.baseUrl}/login`, { email, password }).pipe(
       tap((response) => {
@@ -58,8 +37,6 @@ export class AuthService {
           this.userSubject.next(response.user);
           this.isLoggedInSubject.next(true);
 
-          // NE PAS utiliser window.location.reload()
-          // Laisse Angular router gérer les redirections
         } else {
           throw new Error("Invalid response from server");
         }
@@ -118,90 +95,3 @@ export class AuthService {
   }
 
 }
-
-
-
-
-
-
-/*import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
-// Définir un type pour la réponse d'authentification
-interface AuthResponse {
-  token: string;
-  user: any; // Remplacer `any` par un type plus spécifique si nécessaire
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthService {
-  baseUrl: string = "/authentification";
-
-  private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
-
-
-  //private user: any = null;
-
-  constructor(private httpClient: HttpClient) { }
-
-  login(email: string, password: string): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/login`, { email, password }).pipe(
-      tap((response) => {
-        if (response && response.token && response.user) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          this.isLoggedInSubject.next(true); // 🔹 Met à jour l'état
-        } else {
-          throw new Error("Invalid response from server");
-        }
-      })
-    );
-  }
-
-  forgotPassword(email: string): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/forgotPassword`, { email });
-  }
-
-  changePassword(oldPassword: string, newPassword: string): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/changePassword`, { oldPassword, newPassword });
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.isLoggedInSubject.next(false); // 🔹 Met à jour l'état
-
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token'); // Vérifie si le token existe
-  }
-
-  setLoggedIn(status: boolean) {
-    this.isLoggedInSubject.next(status);
-  }
-
-
-  getUser(): any {
-    const userData = localStorage.getItem('user');
-    return userData ? JSON.parse(userData) : null;
-  }
-
-  saveUser(user: any) {
-    localStorage.setItem('user', JSON.stringify(user)); //Stocker l'utilisateur après connexion
-  }
-}*/
-
-
-/*saveToken(token: string){
-  localStorage.setItem('token', token); // Stocke le token dans le localStorage
-}*/
-
-
-
-

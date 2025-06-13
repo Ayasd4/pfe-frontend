@@ -115,11 +115,6 @@ export class EtatVidangeComponent implements OnInit {
     this.etatService.fetchAllEtats().subscribe((data) => {
       console.log('Données récupérer:', data);
 
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenEtats') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleEtats = data.filter(etat => !hiddenIds.includes(etat.id_vidange));
-
       this.etats = data;
       this.dataSource = new MatTableDataSource<Etat>(this.etats);
       this.dataSource.sort = this.sort;
@@ -226,22 +221,3 @@ export class EtatVidangeComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-
-/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenEtats') || '[]');
-      if (!hiddenIds.includes(id_vidange)) {
-        hiddenIds.push(id_vidange);
-        localStorage.setItem('hiddenEtats', JSON.stringify(hiddenIds));
-
-        this.etats = this.etats.filter(item => item.id_vidange !== id_vidange);
-        this.dataSource.data = this.etats;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('Planning deleted successfully!', 'Close', { duration: 6000 });
-      } */

@@ -1,42 +1,25 @@
-<div class="toolbar">
+<div class="toolbar"> <!-- Logo ou nom de l'app à gauche -->
+
+  <!-- Espacement -->
   <span class="spacer"></span>
 
-  <button *ngIf="isLoggedIn" [matMenuTriggerFor]="profile" mat-menu-button class="m-r-5">
-    <mat-icon>account_circle</mat-icon>
-    <span *ngIf="user">{{ user.nom }}</span>
-  </button>  
+  <!-- Section utilisateur connecté -->
+  <ng-container *ngIf="isLoggedIn">
+    <button mat-button [matMenuTriggerFor]="userMenu" class="user-info">
+      <mat-icon>account_circle</mat-icon>
+      <span class="user-name">{{ user?.nom }}</span>
+    </button>
 
-  <mat-menu #profile="matMenu" class="mymegamenu">
-    <button mat-menu-item (click)="changePassword()">
-      <mat-icon>password</mat-icon> change Password
-    </button>
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon> Sign Out
-    </button>
-  </mat-menu>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item *ngIf="!isAdmin" (click)="changePassword()">
+        <mat-icon>password</mat-icon> change Password
+      </button>
+      <button mat-menu-item *ngIf="!isAdmin" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon> Sign Out
+      </button>
+      <button mat-menu-item *ngIf="isAdmin" (click)="logoutAdmin()"> 
+        <mat-icon>exit_to_app</mat-icon> Sign Out
+      </button>
+    </mat-menu>
+  </ng-container>
 </div>
-
-
-
-
-
-
-
-<!--<mat-toolbar>
-    <mat-toolbar-row>
-      <span>Custom Toolbar</span>
-    </mat-toolbar-row>
-  
-    <mat-toolbar-row>
-      <span>Second Line</span>
-      <span class="example-spacer"></span>
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>
-    </mat-toolbar-row>
-  
-    <mat-toolbar-row>
-      <span>Third Line</span>
-      <span class="example-spacer"></span>
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
-    </mat-toolbar-row>
-  </mat-toolbar>-->

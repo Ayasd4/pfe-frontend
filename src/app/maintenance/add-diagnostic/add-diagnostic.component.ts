@@ -85,9 +85,6 @@ export class AddDiagnosticComponent implements OnInit {
       this.diagnostic.demande.vehicule.numparc = data.numparc;
 
     }
-    /*if (data && data.id_demande) {
-      this.diagnostic.demande.id_demande = data.id_demande;
-    }*/
   }
 
   getDemandeById() {
@@ -102,7 +99,6 @@ export class AddDiagnosticComponent implements OnInit {
       next: (data) => {
         console.log("Request ID data retrieved:", data);
         if (data) {
-          //this.diagnostic.demande.id_demande = data.id_demande;
           this.diagnostic.demande = { ...this.diagnostic.demande, ...data };
 
           // Vérifie et assigne numparc
@@ -121,8 +117,6 @@ export class AddDiagnosticComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      // Pré-remplir le formulaire avec les données de diagnostic
-      //this.diagnostic = { ...this.data };
       this.diagnostic = { ...this.diagnostic, ...this.data };
 
       // Vérifie si vehicule est défini avant d'accéder à numparc

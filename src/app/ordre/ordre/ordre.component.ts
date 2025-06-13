@@ -172,12 +172,6 @@ export class OrdreComponent implements OnInit {
   loadOrdre(): void {
     this.ordreService.fetchAllOrders().subscribe((data) => {
       console.log('Données récupérées : ', data);
-
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleOrdres = data.filter(ordre => !hiddenIds.includes(ordre.id_ordre));
-
       this.ordres = data;
       this.dataSource = new MatTableDataSource<Ordre>(this.ordres);
       this.dataSource.sort = this.sort;
@@ -185,7 +179,6 @@ export class OrdreComponent implements OnInit {
     }, (error) => {
       console.log('Error while retrieving Order: ', error);
     });
-    //let numparc = this.ordre.diagnostic.demande.vehicule.numparc;
     this.loadDiagnostic();
     this.loadTechnicien();
     this.loadAtelier();
@@ -193,20 +186,6 @@ export class OrdreComponent implements OnInit {
     this.loadVehicule();
 
   }
-
-  /*loadOrdre(): void {
-    this.ordreService.fetchAllOrders().subscribe(
-      (data) => {
-        this.ordres = data;
-        this.filtredOrdres = data;
-        this.dataSource.data = data;
-      },
-      (error) => {
-        console.error('Error fetching orders:', error);
-        this.snackBar.open('Error fetching orders, please try again later.', 'Close', { duration: 5000 });
-      }
-    );
-  }*/
 
   loadDiagnostic(): void {
     this.diagnosticService.fetchAllDiagnostic().subscribe(
@@ -301,17 +280,6 @@ export class OrdreComponent implements OnInit {
     }
   }
 
-  /*searchOrder(input: any) {
-    this.filtredOrdres = this.ordres.filter(item => item.urgence_panne?.toLowerCase().includes(input.toLowerCase())
-      || item.travaux?.toLowerCase().includes(input.toLowerCase())
-      || item.material_requis?.toLowerCase().includes(input.toLowerCase())
-      || item.planning?.toLowerCase().includes(input.toLowerCase())
-      || item.date_ordre?.toLowerCase().includes(input.toLowerCase())
-      || item.status?.toLowerCase().includes(input.toLowerCase())
-    )
-    this.dataSource = new MatTableDataSource<Ordre>(this.filtredOrdres);
-  }*/
-
   openDialog(): void {
     const dialogRef = this.dialog.open(AddOrdreComponent, {
       width: '600px',
@@ -389,95 +357,3 @@ export class OrdreComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-
-/**const hiddenIds = JSON.parse(localStorage.getItem('hiddenOrdres') || '[]');
-      if (!hiddenIds.includes(id_ordre)) {
-        hiddenIds.push(id_ordre);
-        localStorage.setItem('hiddenOrdres', JSON.stringify(hiddenIds));
-
-        this.ordres = this.ordres.filter(item => item.id_ordre !== id_ordre);
-        this.dataSource.data = this.ordres;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('Order deleted successfully!', 'Close', { duration: 6000 });
-      } */
-/*
- // Update displayed columns based on selected agency
-  get currentDisplayedColumns(): string[] {
-    if (this.selectedAtelierForPDF) {
-      // Remove 'agence' column when an agency is selected
-      return this.displayedColumns.filter(col => col !== 'atelier');
-    }
-    return this.displayedColumns;
-  }
-
-  // Export current filtered data to PDF
-  /*exportToPdf(): void {
-    // Show loading indicator or message
-    // Use the same search parameters that are currently applied
-    this.ordreService.generateRapport(this.searchParams)
-      .subscribe({
-        next: (blob: Blob) => {
-          // Create a URL for the blob
-          const url = window.URL.createObjectURL(blob);
-
-          // Create a link element
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'ordre.pdf';
-
-          // Append to the document body, click it, and remove it
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-
-          // Release the URL object
-          window.URL.revokeObjectURL(url);
-          const displayedData = this.dataSource.filteredData;
-          
-        },
-        error: (error) => {
-          console.error('Error downloading report:', error);
-          // Show error message to user
-          alert('Failed to download PDF report. Please try again.');
-        }
-      });
-  }
-
-      filters = {
-        id_ordre: 0,
-        id_diagnostic: 0,
-        id_travaux: 0,
-        id_atelier: 0,
-        id_technicien: 0,
-        numparc: this.numparc,
-        nom_atelier: '',
-        matricule_techn: this.matricule_techn,
-        date_ordre: '',
-        status: ''
-      };
-
-      /*generateRapport() {
-    this.ordreService.generateRapport(this.ordre).subscribe({
-      next: (pdfBlob) => {
-        const blob = new Blob([pdfBlob], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'rapport_ordre_travail.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
-      },
-      error: err => {
-        console.error('Error generating report', err);
-        alert('An error occurred while downloading the report.');
-      }
-    });
-  }*/

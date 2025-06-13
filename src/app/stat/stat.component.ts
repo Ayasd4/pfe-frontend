@@ -72,7 +72,6 @@ export class StatComponent {
     this.numparcService.fetchAllNumparc().subscribe({
       next: (data) => {
         console.log('List of numparc received:', data);  // Vérifiez si les données sont bien récupérées
-        //this.numparcList = data;
         this.numparcList = data.map((item: any) => item.numparc);
       },
       error: (err) => {
@@ -81,10 +80,6 @@ export class StatComponent {
     });
   }
   fetchConsomation() {
-    /*if (!this.numparc) {
-      alert('Veuillez entrer un numéro de parc');
-      return;
-    }*/
 
     this.dashboardService.getTotalConsomationByVehiculeAndMonth(this.numparc).subscribe({
       next: (data) => {

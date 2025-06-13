@@ -86,15 +86,9 @@ export class DiagnosticComponent implements OnInit {
 
   load(): void {
     this.diagnosticService.fetchAllDiagnostic().subscribe((data) => {
-      console.log("data", data);  // Vérifiez la structure de la réponse API
-
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenDiagnostics') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleDiagnostics = data.filter(diagnostic => !hiddenIds.includes(diagnostic.id_diagnostic));
-
+      console.log("data", data); 
       this.diagnostics = data;
-      this.dataSource = new MatTableDataSource<Diagnostic>(this.diagnostics);//this.filteredDemandes
+      this.dataSource = new MatTableDataSource<Diagnostic>(this.diagnostics);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -146,7 +140,7 @@ export class DiagnosticComponent implements OnInit {
     numparc: '',
     type_avarie: '',
     description: '',
-    date_diagnostic: '', // S'assurer que la date de diagnostic est bien dans le modèle
+    date_diagnostic: '', 
     heure_diagnostic: ''
   };
 
@@ -186,21 +180,6 @@ export class DiagnosticComponent implements OnInit {
     }
   }
 
-
-  /*searchDiagnostic(input: any) {
-    input = input?.toString().trim().toLowerCase();
-
-    this.filtredDiagnostic = this.diagnostics.filter(item => item.description_panne?.toLowerCase().includes(input)
-      || item.causes_panne?.toLowerCase().includes(input)
-      || item.actions?.toLowerCase().includes(input)
-      || item.date_diagnostic?.toLowerCase().includes(input)
-      || item.heure_diagnostic?.toLowerCase().includes(input)
-    );
-
-    this.dataSource = new MatTableDataSource<Diagnostic>(this.filtredDiagnostic);
-
-  }*/
-
   editDiagnostic(diagnostic: Diagnostic) {
     const dialogRef = this.dialog.open(AddDiagnosticComponent, {
       width: "400px",
@@ -239,21 +218,3 @@ export class DiagnosticComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-/**  const hiddenIds = JSON.parse(localStorage.getItem('hiddenDiagnostics') || '[]');
-      if (!hiddenIds.includes(id_diagnostic)) {
-        hiddenIds.push(id_diagnostic);
-        localStorage.setItem('hiddenDiagnostics', JSON.stringify(hiddenIds));
-
-        this.diagnostics = this.diagnostics.filter(item => item.id_diagnostic !== id_diagnostic);
-        this.dataSource.data = this.diagnostics;
-
-        this.snackBar.open('Diagnostic deleted successfully!', 'Close', { duration: 6000 });
-        window.location.reload();
-      } */

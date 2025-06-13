@@ -140,12 +140,6 @@ export class AddTechnicienComponent {
 
     this.technicien.image = image.name;
 
-    /*const TechnicienToSend = {
-      ...this.technicien,
-
-      date_embauche: this.formatBackendDate(this.technicien.date_embauche),
-    };*/
-
     this.ngxService.start();
 
     if (this.technicien.id_technicien) {

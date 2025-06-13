@@ -177,11 +177,6 @@ export class AddEtatComponent implements OnInit {
       return;
     }
 
-    /*if (!this.etat.vehicule.numparc || !this.etat.kilometrage.calcul) {
-      this.snackBar.open('Vehicle or km are required!', 'Close', { duration: 9000 });
-      return;
-    }*/
-
     const etatToSend = {
       ...this.etat,
 

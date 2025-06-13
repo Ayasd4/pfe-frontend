@@ -47,7 +47,6 @@ export class AtelierComponent implements OnInit {
   displayedColumns: string[] = ['id_atelier', 'nom', 'telephone', 'email', 'capacite', 'statut', 'actions'];
   dataSource = new MatTableDataSource<Atelier>();
 
-  //dataSource = new MatTableDataSource<any>([]);
   capacite: any = undefined;
 
   getStatutClass(statut: string): string {
@@ -86,21 +85,11 @@ export class AtelierComponent implements OnInit {
   ateliers: Atelier[] = [];
   filteredAteliers: Atelier[] = [];
 
-  /*//this.filteredDemandes = data; 
-
-      this.ateliers = data.map((ateliers: any) => ({
-        ...ateliers,
-      }));
-      this.dataSource.data = this.ateliers; */
-
-
   loadAteliers(): void {
     this.atelierService.fetchAllAtelier().subscribe((data) => {
       console.log('Données récupérées : ', data);
       this.ateliers = data;
       this.dataSource = new MatTableDataSource<Atelier>(data);
-      //this.dataSource.sort = this.sort;
-      //this.dataSource.paginator = this.paginator;
 
     }, (error) => {
       console.log('Error while retrieving Workshops: ', error);
@@ -176,29 +165,3 @@ export class AtelierComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-/*const isConfirmed = window.confirm("Are you sure you want to remove this item from the interface?");
-    if (isConfirmed) {
-      // Ajouter l'ID de l'atelier supprimé dans le localStorage
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenAteliers') || '[]');
-      if (!hiddenIds.includes(id_atelier)) {
-        hiddenIds.push(id_atelier);
-        localStorage.setItem('hiddenAteliers', JSON.stringify(hiddenIds));
-      }
-
-      // Supprimer l'atelier de la liste locale (interface)
-      this.ateliers = this.ateliers.filter(item => item.id_atelier !== id_atelier);
-      this.dataSource.data = this.ateliers;
-
-      // Afficher un message de confirmation
-      this.snackBar.open('Workshop removed!', 'Close', { duration: 5000 });
-    }*/

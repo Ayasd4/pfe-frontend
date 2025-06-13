@@ -135,7 +135,7 @@ import { AddVidangeComponent } from './vidange/add-vidange/add-vidange.component
 
   ],
 
-  providers: [//provideNativeDateAdapter(),
+  providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
     { provide: DateAdapter, useClass: NativeDateAdapter }, // Fournir un adaptateur de date natif
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },

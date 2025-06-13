@@ -114,11 +114,6 @@
                     <div style="display: flex; flex-direction: column;">
                         <span> {{Demande.numparc}}</span>
                     </div>
-                    <!--<div style="display: flex; flex-direction: column;">
-                        <span><strong>Parc Number:</strong> {{Demande.numparc}}</span>
-                        <span><strong>Vehicle:</strong> {{Demande.immatricule}}</span>
-                        <span><strong>Model:</strong> {{Demande.modele}}</span>
-                    </div>-->
                 </td>
             </ng-container>
 
@@ -129,24 +124,12 @@
                     <div style="display: flex; flex-direction: column;"> {{Demande.matricule_chauf}} {{Demande.nom}}
                         {{Demande.prenom}}
                     </div>
-                    <!--<div style="display: flex; flex-direction: column;">
-                        <span><strong>Name:</strong> {{Demande.matricule_chauf}}: {{Demande.nom}}
-                            {{Demande.prenom}}</span>
-                        <span><strong>Information:</strong> {{Demande.email}} {{Demande.cin}}
-                            {{Demande.telephone}}</span>
-
-
-                    </div>-->
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
                 <td mat-cell *matCellDef="let demande">
-                    <!--<div class="boutton">
-                        <button mat-flat-button (click)="updateStatus(demande)" color="primary">edit</button>
-                        <button color="black" mat-flat-button (click)="diagnosticDemande(demande)">diagnostic</button>
-                    </div>-->
 
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                         <mat-icon>more_vert</mat-icon>
@@ -176,153 +159,3 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-<!-- bouton avec icon
-<button mat-icon-button (click)="updateStatus(demande)" color="primary" matTooltip="edit"
-                        aria-label="Button that displays a tooltip when focused or hovered over">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button color="green" mat-icon-button (click)="diagnosticDemande(demande)" matTooltip="Diagnostic"
-                        aria-label="Button that displays a tooltip when focused or hovered over">
-                        <mat-icon>assignment_turned_in</mat-icon>
-                    </button>-->
-
-<!--<button style="height: 27px;margin-left: 20px;" mat-icon-button (click)="deleteDemande(demande.id_demande)"
-                        color="warn" matTooltip="delete"
-                        aria-label="Button that displays a tooltip when focused or hovered over">
-                        <mat-icon>delete</mat-icon>
-                    </button>-->
-
-
-
-
-<!--<div class="card">
-    <div class="card-head">
-        <div class="title">Demande Avarie</div>
-        <div class="search-container">
-            <mat-form-field style="width: 180px; margin-left: 15px;">
-                <input (input)="searchDemandes(filter.value)" matInput placeholder="Search demand" type="text"
-                    style="width: 190px;" #filter>
-                <mat-icon fontIcon="search" matSuffix></mat-icon>
-            </mat-form-field>
-        </div>
-    </div>
-
-    <div class="card-body">
-        <mat-list *ngIf="dataSource.data.length > 0">
-            <mat-list-item *ngFor="let demande of dataSource.data">
-
-                <mat-card class="demande-card" appearance="outlined">
-                    <mat-card-header>
-                        <mat-card-title>Demande ID: {{ demande.id_demande }}</mat-card-title>
-                        <mat-card-subtitle>Type Avarie: {{ demande.type_avarie }}</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                            <p><strong>Date Demande:</strong> {{ demande.date_demande }}</p>
-                            <p><strong>Description:</strong> {{ demande.description }}</p>
-                            <p><strong>Date Avarie:</strong> {{ demande.date_avarie }} {{ demande.heure_avarie }}</p>
-                            <p><strong>Statut:</strong> <span
-                                    [ngClass]="getStatutClass(demande.statut)">{{demande.statut}}</span></p>
-
-                            <p><strong>Véhicule: </strong>{{demande.vehicule?.idvehicule}} {{ demande.numparc}} - {{demande.immatricule }} - {{demande.modele }} {{demande.vehicule?.annee }} {{demande.vehicule?.etat }}</p>
-
-                            <p><strong>Chauffeur:</strong>{{demande.chauffeur?.id_chauf}} {{ demande.matricule_chauf }}: {{demande.nom }} {{demande.prenom }}</p>
-
-                            <p><strong>CIN:</strong> {{ demande.cin }}</p>
-                            <p><strong>Téléphone:</strong> {{ demande.telephone }}</p>
-                            <p><strong>Email:</strong> {{ demande.email  }}</p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-icon-button (click)="updateStatus(demande)" color="primary" matTooltip="Edit">
-                            <mat-icon matListItemIcon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="deleteDemande(demande.id_demande)" color="warn"
-                            matTooltip="Delete">
-                            <mat-icon matListItemIcon>delete</mat-icon>
-                        </button>
-                    </mat-card-actions>
-
-                    
-                </mat-card>
-
-                
-            </mat-list-item>
-        </mat-list>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </div>
-</div>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<div class="card">
-    <div class="card-head">
-        <div class="title">Demande Avarie</div>
-        <div class="search-container">
-            <mat-form-field style="width: 180px; margin-left: 15px;">
-                <input (input)="searchDemandes(filter.value)" matInput placeholder="Search demand" type="text"
-                    style="width: 190px;" #filter>
-                <mat-icon fontIcon="search" matSuffix></mat-icon>
-            </mat-form-field>
-        </div>
-    </div>
-
-    <div class="card-body">
-        <mat-list *ngIf="dataSource.data.length > 0">
-            <mat-list-item *ngFor="let demande of dataSource.data">
-                <mat-card class="demande-card">
-                    <mat-card-header>
-                        <mat-card-title>Demande ID: {{ demande.id_demande }}</mat-card-title>
-                        <mat-card-subtitle>Type Avarie: {{ demande.type_avarie }}</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p><strong>Date Demande:</strong> {{ demande.date_demande }}</p>
-                        <p><strong>Description:</strong> {{ demande.description }}</p>
-                        <p><strong>Date Avarie:</strong> {{ demande.date_avarie }} {{ demande.heure_avarie }}</p>
-                        <p><strong>Statut:</strong> <span [ngClass]="getStatutClass(demande.statut)">{{ demande.statut }}</span></p>
-
-                        <p><strong>Véhicule:</strong> {{ demande.numparc }} - {{ demande.immatricule }} - {{ demande.modele }}</p>
-                        
-                        <p><strong>Chauffeur:</strong> {{ demande.matricule_chauf }}: {{ demande.nom }} {{ demande.prenom }}</p>
-                        <p><strong>CIN:</strong> {{ demande.cin }}</p>
-                        <p><strong>Téléphone:</strong> {{ demande.telephone }}</p>
-                        <p><strong>Email:</strong> {{ demande.email }}</p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-icon-button (click)="updateStatus(demande)" color="primary" matTooltip="Edit">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        
-                    </mat-card-actions>
-                </mat-card>
-            </mat-list-item>
-        </mat-list>
-
-    </div>
-</div>
--->

@@ -103,12 +103,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           if (userRole === 'chef de direction technique') {
             this.router.navigate(['/dashboard']);
-            //this.router.navigate(['/vehicule']);
-            //this.router.navigate(['/chauffeur']);
-            //this.router.navigate(['/atelier']);
 
 
-          } else if (userRole === 'chef service maintenance') {
+          } else if (userRole === 'Chef service maintenance') {
             this.router.navigate(['/maintenance']);
             //this.router.navigate(['/diagnostic']);
 

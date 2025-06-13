@@ -1,6 +1,6 @@
 /*Navbar fermé */
 .main-container {
-  background-color: rgba(228, 226, 224, 0.897);
+  background-color: #f4f7fa;
   transition: margin-left 0.3s ease-in-out;
   margin-left: 250px;
 
@@ -11,7 +11,7 @@
 /*Navbar ouvert */
 .main-container.collapsed {
   transition: margin-left 0.3 ease-in-out;
-  width: 100%;
+  width: 90%;
   margin-left: 250px;
   margin-right: -150px;
 

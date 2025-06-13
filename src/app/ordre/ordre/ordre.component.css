@@ -160,15 +160,15 @@ table {
     background-color: #02534d;/*0056b3*/
 }
 
-/* Conteneur du titre et de la recherche */
-
-/* Style du titre */
 .title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-right: 900px;
-    padding-top: 40px; /* Ajoute un espace interne sans affecter la position globale */
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  flex: 1; /* prend l'espace disponible */
+  padding-top: 40px;
+  white-space: nowrap; /* évite le retour à la ligne */
+  overflow: hidden; /* cache ce qui dépasse */
+  text-overflow: ellipsis; /* ajoute "..." si c’est trop long */
 }
 
 /* Style de la recherche */

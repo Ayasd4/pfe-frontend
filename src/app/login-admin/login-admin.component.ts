@@ -1,71 +1,108 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { AuthAdminService } from '../dashboard-admin/services/auth-admin.service';
+import { TokenAdminService } from '../dashboard-admin/services/token-admin.service';
 
 @Component({
   selector: 'app-login-admin',
   templateUrl: './login-admin.component.html',
   styleUrls: ['./login-admin.component.css'],
   standalone: true,
-  imports: [FormsModule,CommonModule]
+  imports: [FormsModule, CommonModule, ReactiveFormsModule
+  ]
 })
-export class LoginAdminComponent {
+export class LoginAdminComponent implements OnInit, OnDestroy {
+  loginForm: FormGroup;
+  errorMessage: string = '';
+  adminRole: string = '';
 
-  // Déclaration des variables pour stocker l'email et le mot de passe
-  email: string = '';
-  password: string = '';
-  errorMessage: string = '';// Variable pour afficher un message d'erreur
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private fb: FormBuilder,
+    private authService: AuthAdminService,
+    private tokenService: TokenAdminService,
+    private router: Router,
+    private ngxService: NgxUiLoaderService) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
 
-  onSubmit() {
-    const loginUrl = 'http://localhost:3100/login';
+  }
 
-    // Prepare the body with email and password
-    const body = {
-      email: this.email,
-      password: this.password
-    };
+  ngOnInit(): void {
+    document.body.classList.add('login-container');
+  }
 
-    // Send POST request to the backend
-    this.http.post(loginUrl, body).subscribe({
-      next: (response: any) => {
-        // Check if the response contains user information
-        if (response && response.roles) {
-          // Check if the user has the 'admin' role (or any role you want to test)
-          if (response.roles.toLowerCase() === 'admin') {
-            // Redirect to admin dashboard if role is 'admin'
-            console.log('Admin user:', response);
-            this.router.navigate(['/dashboardAdmin']);
-            localStorage.setItem('currentUser', JSON.stringify(response));
-          } else if (response.roles.toLowerCase() === 'agent de saisie maîtrise de l’énergie'){
-            // Redirect to user dashboard if role is not 'admin'
-            console.log('Non-admin user:', response);
-            this.router.navigate(['/consomation']);
-            localStorage.clear();
-            localStorage.setItem('currentUser', JSON.stringify(response));
-            // You can also store user details in local storage or a service for further use
-          }else{
-            this.router.navigate(['/login']);
+  ngOnDestroy(): void {
+    document.body.classList.remove('login-container');
+  }
 
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  login() {
+
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please fill in all fields correctly';
+      return;
+    }
+
+    this.ngxService.start();
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+
+
+        console.log('Réponse de connexion:', response); // Inspecte la réponse
+
+        if (response && response.token && response.adminn) {
+          // Sauvegarder le token et l'utilisateur dans le localStorage
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('adminn', JSON.stringify(response.adminn));
+
+          console.log("Admin stocké dans localStorage:", localStorage.getItem('adminn'));
+          console.log("Token stocké dans localStorage:", localStorage.getItem('token'));
+
+          this.authService.setLoggedIn(true);
+
+          this.ngxService.stop();
+
+          // Redirection en fonction du rôle
+          const adminRole = response.adminn.roles;
+
+          if (adminRole === 'adminn') {
+            this.router.navigate(['/dasboard-admin']);
+          } else {
+            this.router.navigate(['/login-admin']);
 
           }
         } else {
-          // If no roles are found, handle as an error or show message
-          console.error('Invalid response or no role found');
-          this.errorMessage = 'User role not found. Please try again.';
+          this.errorMessage = 'Invalid credentials';
+          console.error('Réponse non valide');
         }
       },
       error: (error) => {
-        // Show error message if login fails
-        if (error.status === 401) {
-          this.errorMessage = error.error.message || 'Invalid email or password';
-        } else {
-          this.errorMessage = 'Server error. Please try again later.';
-        }
+        this.ngxService.stop();
+        console.error('Login error', error);
+        this.errorMessage = 'Invalid email or password';
       }
     });
   }
+
 }

@@ -14,8 +14,7 @@
     </div>
 
     <div class="card-body">
-        <!-- Vérification que dataSource.data est un tableau -->
-        <!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort *ngIf="dataSource.data.length > 0">-->
+      
         <ul *ngIf="dataSource.data.length > 0" class="workshop-list">
             <li *ngFor="let atelier of dataSource.data" class="workshop-item">
                 <div class="workshop-details">
@@ -39,10 +38,6 @@
                 </div>
             </li>
         </ul>
-        <!--<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
-
-        <!--<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
-        </mat-paginator>-->
 
     </div>
 </div>

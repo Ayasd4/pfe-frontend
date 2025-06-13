@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-user-dialog',
@@ -19,10 +20,11 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ]
-
 })
+
 export class CreateUserDialogComponent implements OnInit {
 
   userForm: any = {
@@ -37,8 +39,9 @@ export class CreateUserDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CreateUserDialogComponent>,
+    private snackbar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.data) {
@@ -54,12 +57,12 @@ export class CreateUserDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.userForm.nom || !this.userForm.prenom || !this.userForm.email || 
-        (!this.isEditing && !this.userForm.password) || !this.userForm.roles) {
-      alert("Tous les champs sont obligatoires !");
+    if (!this.userForm.nom || !this.userForm.prenom || !this.userForm.email ||
+      (!this.isEditing && !this.userForm.password) || !this.userForm.roles) {
+      this.snackbar.open('Tous les champs sont obligatoires!', 'Close', { duration: 9000 });
+      //alert("Tous les champs sont obligatoires !");
       return;
     }
-    
     this.dialogRef.close(this.userForm);
   }
 }

@@ -14,14 +14,12 @@ export interface Intervention {
         }
         nom_travail: string,
         urgence_panne: string,
-        //travaux: {id_travaux: 0,nom_travail: '', type_atelier: ''},
         planning: string,
         date_ordre: string,
         status: string,
         atelier: Atelier,
         technicien: Technicien,
     },
-    //technicien: Technicien,
     technicien: {
         id_technicien: 0,
         nom: string,
@@ -43,31 +41,3 @@ export interface Intervention {
     }
 
 }
-
-
-
-/*export interface Intervention {
-    id_intervention: number,
-    id_ordre: number,
-    id_technicien: number,
-    date_debut: string,
-    heure_debut: string,
-    date_fin?: string,
-    heure_fin?: string,
-    status_intervention: string,
-    commentaire: string
-
-    //information from join
-    ordre_urgence_panne?: string,
-    ordre_travaux?: string,
-    ordre_material_requis?: string,
-    ordre_planning?: string,
-    ordre_date_ordre?: string,
-    ordre_status?: string,
-
-    technicien_nom?: string,
-    technicien_prenom?: string,
-    technicien_matricule_techn?: number,
-    technicien_email_techn?: string,
-    technicien_specialite?: string,
-}*/

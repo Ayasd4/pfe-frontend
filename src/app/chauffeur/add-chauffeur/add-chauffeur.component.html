@@ -38,10 +38,7 @@
                 <input type="text" class="form-control" hidden matInput [(ngModel)]="chauffeur.image" name="image"
                     required>
                 <app-file-uploader (onFileSelect)="onFileSelect($event)"></app-file-uploader>
-                <!--<app-file-uploader (onFileSelect)="onFileSelect($event)"></app-file-uploader>-->
-                <!--<div class="invalid-feedback" *ngIf="submitted && chauffeurForm.controls['image']?.invalid">
-                    <div *ngIf="chauffeurForm.controls['image']?.errors?.required">Photo is required</div>
-                </div>-->
+
                 <div class="text-danger" *ngIf="uploadError">{{uploadError}}</div>
             </mat-form-field>
 

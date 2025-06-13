@@ -75,7 +75,6 @@ export class InterventionComponent implements OnInit {
       },
       nom_travail: '',
       urgence_panne: '',
-      //travaux: {id_travaux: 0,nom_travail: '', type_atelier: ''},
       planning: '',
       date_ordre: '',
       status: '',
@@ -150,16 +149,7 @@ export class InterventionComponent implements OnInit {
     this.interventionService.fetchAllInterventions().subscribe(data => {
       console.log('Données récupérées : ', data);
 
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleInterventions = data.filter(intervention => !hiddenIds.includes(intervention.id_intervention));
-
-      this.interventions = data;
       this.dataSource.data = this.interventions;
-      this.dataSource = new MatTableDataSource<Intervention>(this.interventions);
-
-      //this.dataSource.data = data; // met à jour automatiquement la table
 
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -170,20 +160,6 @@ export class InterventionComponent implements OnInit {
     this.loadOrdre();
     this.loadTechnicien();
   }
-
-  /*loadIntervention(): void {
-    this.interventionService.fetchAllInterventions().subscribe(
-      (data) => {
-        this.interventions = data;
-        this.filtredIntervention = data;
-        this.dataSource.data = data;
-      },
-      (error) => {
-        console.error('Error fetching orders:', error);
-        this.snackBar.open('Error fetching interventions, please try again later.', 'Close', { duration: 5000 });
-      }
-    );
-  }*/
 
   loadOrdre(): void {
     this.ordreService.fetchAllOrders().subscribe(
@@ -246,42 +222,6 @@ export class InterventionComponent implements OnInit {
     }
   }
 
-
-  /*searchIntervention(input: any) {
-    this.filtredIntervention = this.interventions.filter(item => item.date_debut?.toLowerCase().includes(input.toLowerCase())
-      || item.heure_debut?.toLowerCase().includes(input.toLowerCase())
-      || item.date_fin?.toLowerCase().includes(input.toLowerCase())
-      || item.heure_fin?.toLowerCase().includes(input.toLowerCase())
-      || item.status_intervention?.toLowerCase().includes(input.toLowerCase())
-      || item.commentaire?.toLowerCase().includes(input.toLowerCase())
-    )
-    this.dataSource = new MatTableDataSource<Intervention>(this.filtredIntervention);
-
-  }*/
-
-  /*openDialog(): void {
-    const dialogRef = this.dialog.open(AddInterventionComponent, {
-      width: '600px',
-      height: '600px',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.interventionService.createIntervention(result).subscribe(
-          () => {
-            console.log('New Intervention created successfully!');
-            this.snackBar.open("intervention added successfully!", 'close', { duration: 6000 });
-            this.loadIntervention();
-          },
-          (error) => {
-            console.log(error);
-            this.snackBar.open("Error while added intervention", 'close', { duration: 6000 });
-          });
-      }
-    });
-  }*/
-
   editIntervention(intervention: Intervention) {
     const dialogRef = this.dialog.open(AddInterventionComponent, {
       width: '600px',
@@ -312,9 +252,8 @@ export class InterventionComponent implements OnInit {
       this.interventionService.deleteIntervention(id_intervention).subscribe(() => {
         this.interventions = this.interventions.filter(item => item.id_intervention !== id_intervention);
         this.snackBar.open('Intervention deleted successfully!', 'Close', { duration: 6000 });
-        //window.location.reload();
+        window.location.reload();
         this.loadIntervention();
-
       }, (error) => {
         console.error("Error while deleting Intervention:", error);
 
@@ -337,24 +276,3 @@ export class InterventionComponent implements OnInit {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenInterventions') || '[]');
-      if (!hiddenIds.includes(id_intervention)) {
-        hiddenIds.push(id_intervention);
-        localStorage.setItem('hiddenInterventions', JSON.stringify(hiddenIds));
-
-        this.interventions = this.interventions.filter(item => item.id_intervention !== id_intervention);
-        this.dataSource.data = this.interventions;
-
-        // Afficher un message de confirmation
-        this.snackBar.open('Intervention deleted successfully!', 'Close', { duration: 6000 });
-      } */

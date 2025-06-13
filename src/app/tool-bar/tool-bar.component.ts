@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthAdminService } from '../dashboard-admin/services/auth-admin.service';
 
 
 @Component({
@@ -21,34 +22,49 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [CommonModule, MatToolbarModule, MatIconModule, RouterModule, MatMenuModule, MatButtonModule, MatDialogModule]
 })
 export class ToolBarComponent implements OnInit {
-  //role: any;
+
   isLoggedIn: boolean = false;
-  user: any;
-  subscription!: Subscription;
+  isAdmin: boolean = false;
+  user: any = null;
+  subscriptions: Subscription[] = [];
 
   constructor(private router: Router, private dialog: MatDialog,
     private authService: AuthService, private cdRef: ChangeDetectorRef,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private authAdminService: AuthAdminService
   ) { }
 
+
   ngOnInit() {
-    this.subscription = this.authService.isLoggedIn$.subscribe(status => {
-      this.isLoggedIn = status;
-      console.log("isLoggedIn:", this.isLoggedIn);
-      if (this.isLoggedIn) {
-        this.user = this.authService.getUser(); // Récupère les données de l'utilisateur
-        console.log("Utilisateur connecté:", this.user); // Vérifiez que l'utilisateur est récupéré
+    const userSub = this.authService.isLoggedIn$.subscribe(status => {
+      if (status) {
+        this.user = this.authService.getUser();
+        this.isLoggedIn = true;
+        this.isAdmin = this.user?.roles === 'admin'; // ou autre nom de rôle
+        console.log("User connected:", this.user);
       }
-      this.cdRef.detectChanges(); //Force Angular à mettre à jour la vue
+      this.cdRef.detectChanges();
     });
+    this.subscriptions.push(userSub);
+
+    // Auth admin
+    const adminSub = this.authAdminService.isLoggedIn$.subscribe(status => {
+      if (status) {
+        this.user = this.authAdminService.getAdmin();
+        this.isLoggedIn = true;
+        this.isAdmin = this.user?.roles === 'admin' || this.user?.roles === 'adminn';
+        console.log("Admin connected:", this.user);
+      }
+      this.cdRef.detectChanges();
+    });
+    this.subscriptions.push(adminSub);
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+
   }
-  
+
   logout() {
     this.ngxService.start();
     console.log('user logged out');
@@ -58,6 +74,18 @@ export class ToolBarComponent implements OnInit {
     setTimeout(() => {
       this.ngxService.stop(); // Arrêter l'animation ou le chargement
       this.router.navigate(['/login']);
+    }, 500);
+  }
+
+  logoutAdmin() {
+    this.ngxService.start();
+    console.log('admin logged out');
+    this.authAdminService.logout();
+    this.isLoggedIn = false;
+
+    setTimeout(() => {
+      this.ngxService.stop(); // Arrêter l'animation ou le chargement
+      this.router.navigate(['/login-admin']);
     }, 500);
   }
 

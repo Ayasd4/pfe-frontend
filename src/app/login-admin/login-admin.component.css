@@ -1,12 +1,28 @@
+.login-background {
+  background-image: url('/assets/1573745171.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Conteneur principal */
 .login-container {
-  max-width: 400px;
+  width: 400px;
   margin: 50px auto;
   padding: 25px;
-  background: linear-gradient(135deg, #ffffff, #f0f0f0);
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .login-container:hover {

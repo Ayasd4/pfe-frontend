@@ -44,7 +44,6 @@ export class VehiculeComponent implements OnInit {
 
   constructor(private vehiculeService: VehiculeService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
-  //@ViewChild() permet d’accéder à l'élément <p> du template.
   @ViewChild(MatSort) sort: any;
   @ViewChild(MatPaginator) paginator: any;
 
@@ -68,11 +67,6 @@ export class VehiculeComponent implements OnInit {
   //ngAfterViewInit() modifie le texte du paragraphe une fois que la vue est complètement rendue.
   loadVehicules(): void {
     this.vehiculeService.fetchAllVehicules().subscribe((data) => {
-
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenVehicules') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      //const visibleVehicules = data.filter(vehicule => !hiddenIds.includes(vehicule.idvehicule));
 
       this.vehicules = data;
       this.dataSource = new MatTableDataSource<Vehicule>(data);
@@ -153,32 +147,3 @@ export class VehiculeComponent implements OnInit {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*if (isConfirmed) {
-      // Ajouter l'ID de l'atelier supprimé dans le localStorage
-      const hiddenIds = JSON.parse(localStorage.getItem('hiddenVehicules') || '[]');
-      if (!hiddenIds.includes(idvehicule)) {
-        hiddenIds.push(idvehicule);
-        localStorage.setItem('hiddenVehicules', JSON.stringify(hiddenIds));
-      }
-
-      // Supprimer l'atelier de la liste locale (interface)
-      this.vehicules = this.vehicules.filter(item => item.idvehicule !== idvehicule);
-      this.dataSource.data = this.vehicules;
-
-      // Afficher un message de confirmation
-      this.snackBar.open('Vehicle removed!', 'Close', { duration: 5000 });
-    }*/

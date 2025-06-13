@@ -138,7 +138,6 @@ export class AddDemandeComponent implements OnInit {
     this.numparcService.fetchAllNumparc().subscribe({
       next: (data) => {
         console.log('List of numparc received:', data);  // Vérifiez si les données sont bien récupérées
-        //this.numparcList = data;
         this.numparcList = data.map((item: any) => item.numparc);
       },
       error: (err) => {
@@ -151,7 +150,6 @@ export class AddDemandeComponent implements OnInit {
     this.numparcService.fetchAllName().subscribe({
       next: (data) => {
         console.log('Liste des nom reçue:', data);  // Vérifiez si les données sont bien récupérées
-        //this.numparcList = data;
         this.nameList = data.map((item: any) => item.nom);
       },
       error: (err) => {
@@ -247,10 +245,6 @@ export class AddDemandeComponent implements OnInit {
       this.snackBar.open('All fields must be filled out!', 'Close', { duration: 9000 });
       return;
     }
-    
-    //ajouter
-    //this.dialogRef.close(this.demandeForm.getRawValue());
-
 
     if (!this.demande.vehicule.numparc || !this.demande.chauffeur.nom) {
       this.snackBar.open('Vehicle and driver are required!', 'Close', { duration: 9000 });
@@ -276,7 +270,7 @@ export class AddDemandeComponent implements OnInit {
           console.log('Request updated successfully!');
           this.snackBar.open('Request updated successfully!', 'Close', { duration: 9000 });
           this.dialogRef.close(this.demande);
-          window.location.reload();
+          //window.location.reload();
 
         }, (error) => {
           console.error('Error while updating request: ', error);
@@ -294,8 +288,8 @@ export class AddDemandeComponent implements OnInit {
           }
           console.log("Request created successfully:", response);
           this.snackBar.open('Request created successfully!', 'Close', { duration: 9000 });
-          this.dialogRef.close();
-          window.location.reload();
+          this.dialogRef.close(this.demande);
+          //window.location.reload();
         },
         error: (error) => {
           console.error("Error while creating Request :", error);

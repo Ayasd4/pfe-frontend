@@ -62,7 +62,6 @@ export class ConsulterComponent implements OnInit {
 
   constructor(private consultService: ConsulterService,
     private cd: ChangeDetectorRef,
-    //public dialogRef: MatDialogRef<ConsulterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private interventionService: InterventionService,
     private snackBar: MatSnackBar,
@@ -238,16 +237,6 @@ export class ConsulterComponent implements OnInit {
     });
   }
 
-  /*ngOnInit() {
-    this.route.params.subscribe(params => {
-      const id = params['id_ordre'];
-      if (id) {
-        this.loadOrdreById(id);
-        this.loadInterventionById(id);
-      }
-    });
-  }*/
-
   ngOnInit(): void {
     if (this.data?.id_ordre) {
       this.ordre.id_ordre = this.data.id_ordre;
@@ -278,13 +267,6 @@ export class ConsulterComponent implements OnInit {
       console.log('Données récupérées : ', data);
 
       this.dataSource.data = data;
-
-      /*this.interventions = data;
-      this.dataSource.data = this.interventions;
-
-      this.cd.detectChanges();
-
-      this.dataSource = new MatTableDataSource<Intervention>(this.interventions);*/
 
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

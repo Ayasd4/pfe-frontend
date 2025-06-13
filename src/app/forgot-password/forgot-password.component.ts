@@ -41,13 +41,11 @@ export class ForgotPasswordComponent {
       const email = this.forgotPasswordForm.value.email;
       this.authService.forgotPassword(email).subscribe({
         next: (response) => {
-          //alert('Un email de réinitialisation a été envoyé.');
           this.ngxService.stop();
           this.message = response.message;
           this.errorMessage = '';
         },
         error: (error) => {
-          //alert('Erreur lors de la réinitialisation du mot de passe.');
           this.ngxService.stop();
           if (error.status === 404) {
             this.errorMessage = 'Adresse email introuvable. L\'email n\'a pas été envoyé.';

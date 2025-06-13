@@ -6,6 +6,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { TokenService } from '../services/token.service';
 import { AuthService } from '../services/auth.service';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { AuthAdminService } from '../dashboard-admin/services/auth-admin.service';
 
 interface HeaderNavToggle {
   screenwidth: number;
@@ -19,9 +20,8 @@ interface NavItem {
 
 @Component({
   selector: 'app-header',
-  standalone: true,//ajouter
-  // Assure-toi que RouterModule est importé
-  imports: [CommonModule, RouterModule, NgxUiLoaderModule],//ajouter
+  standalone: true,
+  imports: [CommonModule, RouterModule, NgxUiLoaderModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   animations: [
@@ -63,52 +63,20 @@ export class HeaderComponent implements OnInit {
   navData = navbarData;
   isLoggedIn: boolean = false;
 
-  constructor(private tokenService: TokenService, private authService: AuthService, private router: Router) { }
+  constructor(private tokenService: TokenService, private authService: AuthService, private router: Router, private authAdminService: AuthAdminService) { }
 
   @HostListener('window: resize', ['$event'])
 
   onResize(event: any) {
     this.screenwidth = window.innerWidth;
     this.onToggleHeaderNav.emit({ collapsed: this.collapsed, screenwidth: this.screenwidth });
-
-    /*this.screenwidth = window.innerWidth;
-    if (this.screenwidth <= 768) {
-      this.collapsed = false;//false
-      this.onToggleHeaderNav.emit({ collapsed: this.collapsed, screenwidth: this.screenwidth });
-    }*/
   }
-
-  /*ngOnInit(): void {
-    this.screenwidth = window.innerWidth;
-    this.collapsed = true; //
-
-    // Écoute les changements de l'utilisateur pour mettre à jour le header dynamiquement
-
-
-    const user = this.authService.getUser();
-    console.log('Utilisateur retourné par getUser():', user);
-
-    if (!user || !user.roles) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    this.role = user.roles; // Assigne les rôles
-    console.log('Rôle récupéré:', this.role);
-
-    // Filtrer le menu selon le rôle
-    this.navData = this.getUserNavData();
-    console.log('navData après filtrage:', this.navData);
-    //this.onToggleHeaderNav.emit({ collapsed: this.collapsed, screenwidth: this.screenwidth }); //
-    this.isLoggedIn = !!localStorage.getItem('token');
-
-  }*/
 
   ngOnInit(): void {
     this.screenwidth = window.innerWidth;
     this.collapsed = true; // Initialise l’état du menu à "réduit"
 
-    this.authService.isLoggedIn$.subscribe(status => { //interface réactive aux changements de connexion 
+    this.authService.isLoggedIn$.subscribe(status => {  //interface réactive aux changements de connexion 
       this.isLoggedIn = status; //permet de réagir automatiquement lorsqu’un utilisateur se connecte ou se déconnecte
       if (status) {
         const user = this.authService.getUser();
@@ -124,52 +92,27 @@ export class HeaderComponent implements OnInit {
         console.warn("Utilisateur non connecté");
       }
     });
-  }
 
+    this.authAdminService.isLoggedIn$.subscribe(status => { 
+      this.isLoggedIn = status; 
+      if (status) {
+        const admin = this.authAdminService.getAdmin();
+        console.log('admin retourné par getAdmin():', admin);
+
+        if (admin && admin.roles) {
+          this.role = admin.roles;
+          this.navData = this.getAdminNavData();
+        } else {
+          console.warn("Aucun rôle trouvé");
+        }
+      } else {
+        console.warn("admin non connecté");
+      }
+    });
+  }
 
   getUserNavData() {
     const navItems: NavItem[] = [];
-
-    // Vérifie les rôles et ajoute les sections correspondantes
-    if (this.role.includes('admin')) {
-
-      return [
-        { routeLink: 'dashboard', icon: 'fal fa-home', label: 'Dashboard' },
-        { routeLink: 'vehicule', icon: 'fal fa-bus', label: 'Véhicule' },
-        { routeLink: 'chauffeur', icon: 'fal fa-user-tie', label: 'chauffeur' },
-        { routeLink: 'atelier', icon: 'fal fa-hard-hat', label: 'atelier' },
-        { routeLink: 'technicien', icon: 'fal fa-user-hard-hat ', label: 'technicien' },
-        { routeLink: 'maintenance', icon: 'fal fa-tools', label: 'Maintenance' },
-        { routeLink: 'diagnostic', icon: 'fal fa-clipboard-list-check ', label: 'diagnostic' },
-        { routeLink: 'ordre', icon: 'fal fa-clipboard-list', label: 'ordre de travail' },
-        { routeLink: 'intervention', icon: 'fal fa-hammer', label: 'intervention' },
-        //{ routeLink: 'ordre', icon: 'fal fa-clipboard-list', label: 'orders'},
-        { routeLink: 'demande', icon: ' fal fa-file-alt', label: 'demande d’avarie' },
-        {
-          routeLink: 'etat',
-          icon: 'fal fa-calendar-check',
-          label: 'etat vidange'
-        },
-
-        {
-          routeLink: 'stat',
-          icon: 'fal fa-chart-bar',
-          label: 'statistique'
-        },
-        /*{
-          routeLink: 'vidange',
-          icon: 'fal fa-oil-can',
-          label: 'vidange'
-        },*/
-        {
-          routeLink: 'consomation',
-          icon: 'fal fa-gas-pump', //fal fa-oil-can //fal fa-tags
-          label: 'consomation'
-        },
-        { routeLink: 'kilometrage', icon: 'fal fa-tachometer-alt', label: 'Kilométrage' }
-      ];
-
-    }
 
     if (this.role.includes('chef de direction technique')) {
 
@@ -185,7 +128,7 @@ export class HeaderComponent implements OnInit {
 
     }
 
-    if (this.role.includes('chef service maintenance')) {
+    if (this.role.includes('Chef service maintenance')) {
       return [
         { routeLink: 'maintenance', icon: 'fal fa-tools', label: `demandes d'avarie` },
         { routeLink: 'diagnostic', icon: 'fal fa-clipboard-list-check ', label: 'diagnostic' },
@@ -217,11 +160,6 @@ export class HeaderComponent implements OnInit {
           icon: 'fal fa-chart-bar',
           label: 'statistique'
         },
-        /*{
-          routeLink: 'vidange',
-          icon: 'fal fa-oil-can',// fa-tint
-          label: 'vidange'
-        }*/
       ]
     }
 
@@ -229,27 +167,33 @@ export class HeaderComponent implements OnInit {
       return [
         {
           routeLink: 'consomation',
-          icon: 'fal fa-gas-pump', //fal fa-oil-can //fal fa-tags
+          icon: 'fal fa-gas-pump',
           label: 'consomation'
 
         },
 
         {
           routeLink: 'kilometrage',
-          icon: 'fal fa-tachometer-alt', //fal fa-road//fal fa-cog:parametre
+          icon: 'fal fa-tachometer-alt',
           label: 'kilometrage'
         },
-
-        /*{
-          routeLink: 'dashboard-admin',
-          icon: 'fal fa-tachometer-alt', //fal fa-road//fal fa-cog:parametre
-          label: 'kilometrage'
-        }*/
 
       ]
     }
 
     return [];
+  }
+
+  getAdminNavData() {
+    if (this.role.includes('adminn')) {
+      return [{
+        routeLink: 'dashboard-admin',
+        icon: 'fal fa-user',
+        label: 'utilisateur'
+      }]
+    }
+    return [];
+
   }
 
   toggleCollapse(): void {
@@ -269,6 +213,12 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  logoutAdmin() {
+    this.authAdminService.logout();
+    this.router.navigate(['/login-admin']);
+
+  }
+
   navigateToTask(task: string) {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
@@ -279,130 +229,15 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-}
 
-
-
-/* 
-derniere code: contenu de header accessible a touta les utilisateurs mais par connexion
-----------------------------------------------------------------------------------------
-getUserNavData() {
-    const navItems = [];
-
-    // Vérifie les rôles et ajoute les sections correspondantes
-    if (this.role && this.role.includes('admin')) {
-      navItems.push(
-        { routeLink: 'dashboard', icon: 'fal fa-home', label: 'Dashboard' },
-        { routeLink: 'vehicule', icon: 'fal fa-bus', label: 'Véhicule' },
-        { routeLink: 'maintenance', icon: 'fal fa-tools', label: 'Maintenance' },
-        { routeLink: 'consommation', icon: 'fal fa-gas-pump', label: 'Consommation' },
-        { routeLink: 'kilometrage', icon: 'fal fa-tachometer-alt', label: 'Kilométrage' }
-      );
-    }
-    if (this.role && this.role.includes('chef de direction technique')) {
-      navItems.push({ routeLink: 'vehicule', icon: 'fal fa-bus', label: 'Véhicule' });
-    }
-    if (this.role && this.role.includes('chef service maintenance')) {
-      navItems.push({ routeLink: 'maintenance', icon: 'fal fa-tools', label: 'Maintenance' });
-    }
-    if (this.role && this.role.includes('agent de saisie maîtrise de l\'énergie')) {
-      navItems.push(
-        { routeLink: 'kilometrage', icon: 'fal fa-tachometer-alt', label: 'Kilométrage' },
-        { routeLink: 'consommation', icon: 'fal fa-gas-pump', label: 'Consommation' }
-      );
-    }
-
-    return navItems;
-  }
-
-
-
-
-
-
-
-
-
-
-
-getUserNavData() {
-    if (this.role === 'admin') {
-      return [
-        { routeLink: 'dashboard', icon: 'fal fa-home', label: 'Dashboard' },
-        { routeLink: 'vehicule', icon: 'fal fa-bus', label: 'Véhicule' },
-        { routeLink: 'maintenance', icon: 'fal fa-tools', label: 'Maintenance' },
-        { routeLink: 'consommation', icon: 'fal fa-gas-pump', label: 'Consommation' },
-        { routeLink: 'kilometrage', icon: 'fal fa-tachometer-alt', label: 'Kilométrage' },
-      ];
-    } else if (this.role === 'chef de direction technique') {
-      return [
-        { RouterLink: 'vehicule', icon: 'fal fa-bus', label: 'vehicule' },
-      ];
-    } else if (this.role === 'chef service maintenance') {
-      return [
-        { routeLink: 'maintenance', icon: 'fal fa-tools', label: 'Maintenance' },
-      ];
-    } else if (this.role === 'agent de saisie maîtrise de l\'énergie') {
-      return [
-        { routeLink: 'kilometrage', icon: 'fal fa-tachometer-alt', label: 'Kilométrage' },
-        { routeLink: 'consommation', icon: 'fal fa-gas-pump', label: 'Consommation' },
-      ];
+  navigateToTaskAdmin(task: string) {
+    if (!this.authAdminService.isLoggedIn()) {
+      this.router.navigate(['/login-admin']);
     } else {
-      return []; // Aucun accès pour les autres rôles
+      // Rediriger vers la tâche spécifique
+      this.router.navigate([task]);
+      window.location.reload();
     }
   }
-*/
 
-
-
-
-
-/*menuValue: boolean= false;
-menu_icon: String= 'bi bi-list'
-
-openMenu(){
-  this.menuValue =!this.menuValue;
-  this.menu_icon= this.menuValue ? 'bi bi-x':'bi bi-list';
 }
-
-closeMenu(){
-  this.menuValue= false;
-  this.menu_icon= 'bi bi-list'
-
-
-
-   getUserNavData(){
-  return [
-    {
-      routeLink: 'dashboard',
-      icon: 'fal fa-home',
-      label: 'Dashboard'
-    },
-    {
-      routeLink: 'vehicule',
-      icon: 'fal fa-bus',
-      label: 'Véhicule'
-    },
-    {
-      routeLink: 'maintenance',
-      icon: 'fal fa-tools',
-      label: 'Maintenance'
-    },
-    {
-      routeLink: 'consommation',
-      icon: 'fal fa-gas-pump',
-      label: 'Consommation'
-    },
-    {
-      routeLink: 'kilometrage',
-      icon: 'fal fa-tachometer-alt',
-      label: 'Kilométrage'
-    },
-    {
-      routeLink: 'admin',
-      icon: 'fal fa-user-shield',
-      label: 'Admin Panel'
-    }
-  ];
-}
-}*/

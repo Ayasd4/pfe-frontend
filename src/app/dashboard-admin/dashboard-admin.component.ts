@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CreateUserDialogComponent } from './create-user-dialog/create-user-dialog.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -29,7 +30,8 @@ import { CreateUserDialogComponent } from './create-user-dialog/create-user-dial
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ]
 })
 export class DashboardAdminComponent implements OnInit, AfterViewInit {
@@ -40,7 +42,7 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: any;
   @ViewChild(MatPaginator) paginator: any;
 
-  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) { }
+  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     const currentUser = localStorage.getItem('currentUser');
@@ -104,7 +106,11 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
       if (result) {
         this.http.post('http://localhost:3100/utilisateur', result)
           .subscribe(() => {
+            this.snackbar.open('user added successfully', 'Close', { duration: 9000 });
             this.fetchUsers();
+          },(error) => {
+            this.snackbar.open('Error while adding user', 'Close', { duration: 9000 });
+            console.error('Error adding user:', error);
           });
       }
     });
@@ -130,7 +136,11 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
 
         this.http.put(`http://localhost:3100/utilisateur/${user.id}`, result, { headers })
           .subscribe(() => {
+            this.snackbar.open('user updated successfully', 'Close', { duration: 9000 });
             this.fetchUsers();
+          },(error) => {
+            this.snackbar.open('Error while updating user', 'Close', { duration: 9000 });
+            console.error('Error updating user:', error);
           });
       }
     });
@@ -147,12 +157,14 @@ export class DashboardAdminComponent implements OnInit, AfterViewInit {
 
       const headers = { Authorization: `Bearer ${token}` };
 
-      this.http.delete(`http://localhost:3100/utilisateur/${id}`, {headers})
+      this.http.delete(`http://localhost:3100/utilisateur/${id}`, { headers })
         .subscribe({
           next: () => {
+            this.snackbar.open('user deleted successfully', 'Close', { duration: 9000 });
             this.fetchUsers();
           },
           error: (error) => {
+            this.snackbar.open('Error while deleting user', 'Close', { duration: 9000 });
             console.error('Error deleting user:', error);
           }
         });

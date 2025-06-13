@@ -93,13 +93,8 @@ export class VidangeComponent implements OnInit {
     this.vidangeService.fetchAllVidanges().subscribe((data) => {
       console.log('Données récupérer:', data);
 
-      //const hiddenIds = JSON.parse(localStorage.getItem('hiddenVidanges') || '[]');
-
-      // Ne pas inclure les ateliers supprimés dans la liste des ateliers visibles
-      // const visibleVidanges = data.filter(vidange => !hiddenIds.includes(vidange.id_vd));
-
       this.vidanges = data;
-      this.dataSource = new MatTableDataSource<Vidange>(this.vidanges);//this.filteredDemandes
+      this.dataSource = new MatTableDataSource<Vidange>(this.vidanges);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, (error) => {
@@ -120,39 +115,6 @@ export class VidangeComponent implements OnInit {
   goBack() {
     this.router.navigate(['/etat']);
   }
-
-  /*searchParams: any = {
-    numparc: 0,
-    date_vidange: '',
-    km_vidange: 0
-  };
-
-  searchVidanges(): void {
-    const filteredParams = Object.fromEntries(
-      Object.entries(this.searchParams).filter(([__dirname, value]) => value !== null && value !== undefined && value !== '')
-    );
-
-    if (Object.keys(filteredParams).length === 0) {
-      this.loadVidanges();
-      return;
-    }
-
-    this.vidangeService.searchVidanges(filteredParams).subscribe((data) => {
-      console.log("Recherche en cours :", data);
-
-      this.filtredVidanges = data;
-      this.dataSource.data = data;
-    },
-      (error) => {
-        console.error('Error searching requests:', error);
-      }
-    );
-  }
-
-  resetSearch(): void {
-    this.searchParams = {};
-    this.loadVidanges();
-  }*/
 
   // Apply quick filter to the table
   applyFilter(event: Event): void {
@@ -221,26 +183,3 @@ export class VidangeComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*const hiddenIds = JSON.parse(localStorage.getItem('hiddenVidanges') || '[]');
-          if (!hiddenIds.includes(id_vd)) {
-            hiddenIds.push(id_vd);
-            localStorage.setItem('hiddenVidanges', JSON.stringify(hiddenIds));
-    
-            this.vidanges = this.vidanges.filter(item => item.id_vd !== id_vd);
-            this.dataSource.data = this.vidanges;
-    
-            // Afficher un message de confirmation
-            this.snackBar.open('Oil change deleted successfully!', 'Close', { duration: 6000 });
-          }*/
